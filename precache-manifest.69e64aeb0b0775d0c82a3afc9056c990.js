@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "bc4bb1fef9440af88ce6101cdc210bce",
+    "revision": "ad73619d0c8048b7c8e6fb45651c531b",
     "url": "/binge-watchers-guide/index.html"
   },
   {
@@ -20,8 +20,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/binge-watchers-guide/static/js/3.8e00b071.chunk.js"
   },
   {
-    "revision": "fe44549e8a46d5ccd393",
-    "url": "/binge-watchers-guide/static/js/main.8ccac938.chunk.js"
+    "revision": "10dc71cec74def482f6b",
+    "url": "/binge-watchers-guide/static/js/main.a19415a1.chunk.js"
   },
   {
     "revision": "340936a37799344a077a",

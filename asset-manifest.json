@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.js": "/binge-watchers-guide/static/js/main.8ccac938.chunk.js",
-    "main.js.map": "/binge-watchers-guide/static/js/main.8ccac938.chunk.js.map",
+    "main.js": "/binge-watchers-guide/static/js/main.a19415a1.chunk.js",
+    "main.js.map": "/binge-watchers-guide/static/js/main.a19415a1.chunk.js.map",
     "runtime-main.js": "/binge-watchers-guide/static/js/runtime-main.eb28df26.js",
     "runtime-main.js.map": "/binge-watchers-guide/static/js/runtime-main.eb28df26.js.map",
     "static/css/2.d50387d1.chunk.css": "/binge-watchers-guide/static/css/2.d50387d1.chunk.css",
@@ -10,7 +10,7 @@
     "static/js/3.8e00b071.chunk.js": "/binge-watchers-guide/static/js/3.8e00b071.chunk.js",
     "static/js/3.8e00b071.chunk.js.map": "/binge-watchers-guide/static/js/3.8e00b071.chunk.js.map",
     "index.html": "/binge-watchers-guide/index.html",
-    "precache-manifest.dd508512467c32418278ec90645e7632.js": "/binge-watchers-guide/precache-manifest.dd508512467c32418278ec90645e7632.js",
+    "precache-manifest.69e64aeb0b0775d0c82a3afc9056c990.js": "/binge-watchers-guide/precache-manifest.69e64aeb0b0775d0c82a3afc9056c990.js",
     "service-worker.js": "/binge-watchers-guide/service-worker.js",
     "static/css/2.d50387d1.chunk.css.map": "/binge-watchers-guide/static/css/2.d50387d1.chunk.css.map",
     "static/js/2.aae3f7f5.chunk.js.LICENSE.txt": "/binge-watchers-guide/static/js/2.aae3f7f5.chunk.js.LICENSE.txt",
@@ -20,6 +20,6 @@
     "static/js/runtime-main.eb28df26.js",
     "static/css/2.d50387d1.chunk.css",
     "static/js/2.aae3f7f5.chunk.js",
-    "static/js/main.8ccac938.chunk.js"
+    "static/js/main.a19415a1.chunk.js"
   ]
 }
