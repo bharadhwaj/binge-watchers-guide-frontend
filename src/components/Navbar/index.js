@@ -21,9 +21,6 @@ import Login from '../Login';
 import Register from '../Register';
 import SlideTransition from '../SlideTransition';
 
-import BWGLogo from '../../assets/bwg_logo.png';
-import BWGMobileLogo from '../../assets/bwg_mobile_logo.png';
-
 import style from './style';
 
 import { utils } from '../../constants';
@@ -91,7 +88,7 @@ const Navbar = props => {
               <Grid item>
                 <img
                   className={classes.logo}
-                  src={isMobileView ? BWGMobileLogo : BWGLogo}
+                  src={isMobileView ? '/bwg_mobile_logo.png' : '/bwg_logo.png'}
                   alt="Binge Watcher's Guide"
                   onClick={() => redirectToPage('/')}
                 />
