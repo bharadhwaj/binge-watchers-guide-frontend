@@ -1,0 +1,171 @@
+import React from 'react';
+
+import AppBar from '@material-ui/core/AppBar';
+import Button from '@material-ui/core/Button';
+import Dialog from '@material-ui/core/Dialog';
+import DialogContent from '@material-ui/core/DialogContent';
+import Grid from '@material-ui/core/Grid';
+import IconButton from '@material-ui/core/IconButton';
+import Toolbar from '@material-ui/core/Toolbar';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+
+import CloseRoundedIcon from '@material-ui/icons/CloseRounded';
+import LibraryAddRoundedIcon from '@material-ui/icons/LibraryAddRounded';
+import PersonAddRoundedIcon from '@material-ui/icons/PersonAddRounded';
+
+import { useTheme, makeStyles } from '@material-ui/core/styles';
+
+import ElevationScroll from '../ElevationScroll';
+import Login from '../Login';
+import Register from '../Register';
+import SlideTransition from '../SlideTransition';
+
+import BWGLogo from '../../assets/bwg_logo.png';
+import BWGMobileLogo from '../../assets/bwg_mobile_logo.png';
+
+import style from './style';
+
+const Navbar = props => {
+  const { redirectToPage } = props;
+  const classes = makeStyles(style)();
+  const theme = useTheme();
+  const isMobileView = useMediaQuery(theme.breakpoints.down('sm'));
+
+  const [loginPopupState, setLoginPopupState] = React.useState(false);
+  const [registerPopupState, setRegisterPopupState] = React.useState(false);
+  // const [addShowPopupState, setAddShowPopupState] = React.useState(false);
+
+  const handleOpenLoginPopup = () => {
+    setLoginPopupState(true);
+  };
+
+  const handleCloseLoginPopup = () => {
+    setLoginPopupState(false);
+  };
+
+  const handleOpenRegisterPopup = () => {
+    setRegisterPopupState(true);
+  };
+
+  const handleCloseRegisterPopup = () => {
+    setRegisterPopupState(false);
+  };
+
+  return (
+    <>
+      <ElevationScroll {...props}>
+        <AppBar className={classes.root} position="sticky" elevation={0}>
+          <Toolbar>
+            <Grid container justify="space-between" alignItems="center">
+              <Grid item>
+                <img
+                  className={classes.logo}
+                  src={isMobileView ? BWGMobileLogo : BWGLogo}
+                  alt="Binge Watcher's Guide"
+                  onClick={() => redirectToPage('/')}
+                />
+              </Grid>
+              <Grid item>
+                <Grid container justify="space-between" alignItems="center">
+                  <Grid item xs={8}>
+                    {isMobileView ? (
+                      <IconButton
+                        aria-label="delete"
+                        className={classes.margin}
+                      >
+                        <LibraryAddRoundedIcon color="primary" />
+                      </IconButton>
+                    ) : (
+                      <Grid container justify="center" alignItems="center">
+                        <Button
+                          color="primary"
+                          size="large"
+                          startIcon={<LibraryAddRoundedIcon />}
+                          onClick={handleOpenLoginPopup}
+                        >
+                          Add your entry
+                        </Button>
+                      </Grid>
+                    )}
+                  </Grid>
+                  <Grid item xs={4}>
+                    {isMobileView ? (
+                      <IconButton onClick={handleOpenLoginPopup}>
+                        <PersonAddRoundedIcon color="primary" />
+                      </IconButton>
+                    ) : (
+                      <Grid container justify="center" alignItems="center">
+                        <Button
+                          color="primary"
+                          size="large"
+                          startIcon={<PersonAddRoundedIcon />}
+                          onClick={handleOpenLoginPopup}
+                        >
+                          Login
+                        </Button>
+                      </Grid>
+                    )}
+                  </Grid>
+                </Grid>
+              </Grid>
+            </Grid>
+          </Toolbar>
+        </AppBar>
+      </ElevationScroll>
+      <Dialog
+        open={loginPopupState}
+        TransitionComponent={SlideTransition}
+        fullWidth
+        maxWidth="sm"
+        keepMounted={false}
+        onClose={handleCloseLoginPopup}
+      >
+        <DialogContent>
+          <Grid container>
+            <Grid item xs={12}>
+              <Grid container justify="flex-end">
+                <IconButton onClick={handleCloseLoginPopup}>
+                  <CloseRoundedIcon />
+                </IconButton>
+              </Grid>
+            </Grid>
+            <Grid item xs={12}>
+              <Login
+                handleOpenRegisterPopup={handleOpenRegisterPopup}
+                handleCloseLoginPopup={handleCloseLoginPopup}
+              />
+            </Grid>
+          </Grid>
+        </DialogContent>
+      </Dialog>
+      <Dialog
+        open={registerPopupState}
+        TransitionComponent={SlideTransition}
+        fullWidth
+        maxWidth="sm"
+        keepMounted={false}
+        onClose={handleCloseRegisterPopup}
+      >
+        <DialogContent>
+          <Grid container>
+            <Grid item xs={12}>
+              <Grid container justify="flex-end">
+                <IconButton onClick={handleCloseRegisterPopup}>
+                  <CloseRoundedIcon />
+                </IconButton>
+              </Grid>
+            </Grid>
+            <Grid item xs={12}>
+              <Register
+                handleOpenLoginPopup={handleOpenLoginPopup}
+                handleCloseRegisterPopup={handleCloseRegisterPopup}
+              />
+            </Grid>
+          </Grid>
+        </DialogContent>
+      </Dialog>
+    </>
+  );
+};
+
+export default Navbar;
