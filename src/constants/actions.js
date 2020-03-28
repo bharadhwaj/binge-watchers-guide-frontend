@@ -38,3 +38,9 @@ export const STATIC = {
   UPDATE_LANGUAGE_DATA: 'bwg/Static/UPDATE_LANGUAGE_DATA',
   UPDATE_GENRE_DATA: 'bwg/Static/UPDATE_GENRE_DATA',
 };
+
+// ------------------ SHOWS ACTIONS ------------------ //
+export const SHOWS = {
+  GET_ALL_SHOWS: 'bwg/Shows/GET_ALL_SHOWS',
+  ADD_SHOWS: 'bwg/Shows/ADD_SHOWS',
+};

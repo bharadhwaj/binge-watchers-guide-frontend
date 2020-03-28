@@ -11,14 +11,15 @@ import FilterAreaWeb from '../components/FilterAreaWeb';
 import MovieDescription from '../components/MovieDescription';
 import Navbar from '../components/Navbar';
 
-import { staticAction, toastAction } from '../actions';
-import { staticSelector, userSelector } from '../selectors';
+import { staticAction, toastAction, showsAction } from '../actions';
+import { showsSelector, staticSelector, userSelector } from '../selectors';
 
 class IndexPage extends Component {
   componentDidMount() {
-    const { getAllStatics } = this.props;
+    const { getAllStatics, getAllShows } = this.props;
 
     getAllStatics();
+    getAllShows();
   }
 
   render() {
@@ -29,85 +30,8 @@ class IndexPage extends Component {
       types,
       languages,
       genres,
+      shows,
     } = this.props;
-
-    const recommendations = [
-      {
-        _id: '1',
-        name: 'Kumbalangi Nights',
-        url: 'https://www.primevideo.com/detail/0IIH4C2IQSRU9B8L3F4XOLI5WH/',
-        language: 'Malayalam',
-        type: 'Movie',
-        genre: ['Drama', 'Thriller'],
-        upvotes: 12,
-        downvotes: 2,
-        haveUpvoted: true,
-        haveDownvoted: false,
-      },
-      {
-        _id: '2',
-        name: 'The Prestige',
-        url:
-          'https://www.primevideo.com/region/eu/detail/0NHF8XHW3MHY857TGPSWTYCXTI/',
-        language: 'English',
-        type: 'Movie',
-        genre: ['Drama', 'Suspense'],
-        upvotes: 28,
-        downvotes: 4,
-        haveUpvoted: false,
-        haveDownvoted: true,
-      },
-      {
-        _id: '3',
-        name: 'Kumbalangi Nights',
-        url: 'https://www.primevideo.com/detail/0IIH4C2IQSRU9B8L3F4XOLI5WH/',
-        language: 'Malayalam',
-        type: 'Movie',
-        genre: ['Drama', 'Thriller'],
-        upvotes: 12,
-        downvotes: 2,
-        haveUpvoted: true,
-        haveDownvoted: false,
-      },
-      {
-        _id: '4',
-        name: 'The Prestige',
-        url:
-          'https://www.primevideo.com/region/eu/detail/0NHF8XHW3MHY857TGPSWTYCXTI/',
-        language: 'English',
-        type: 'Movie',
-        genre: ['Drama', 'Suspense'],
-        upvotes: 28,
-        downvotes: 4,
-        haveUpvoted: false,
-        haveDownvoted: true,
-      },
-      {
-        _id: '5',
-        name: 'Kumbalangi Nights',
-        url: 'https://www.primevideo.com/detail/0IIH4C2IQSRU9B8L3F4XOLI5WH/',
-        language: 'Malayalam',
-        type: 'Movie',
-        genre: ['Drama', 'Thriller'],
-        upvotes: 12,
-        downvotes: 2,
-        haveUpvoted: true,
-        haveDownvoted: false,
-      },
-      {
-        _id: '6',
-        name: 'The Prestige',
-        url:
-          'https://www.primevideo.com/region/eu/detail/0NHF8XHW3MHY857TGPSWTYCXTI/',
-        language: 'English',
-        type: 'Movie',
-        genre: ['Drama', 'Suspense'],
-        upvotes: 28,
-        downvotes: 4,
-        haveUpvoted: false,
-        haveDownvoted: true,
-      },
-    ];
 
     return (
       <>
@@ -132,8 +56,8 @@ class IndexPage extends Component {
             </Grid>
           </Hidden>
           <Grid item xs={12} md={8}>
-            {recommendations.map(recommendation => (
-              <MovieDescription key={recommendation._id} {...recommendation} />
+            {shows.map(show => (
+              <MovieDescription key={show._id} {...show} />
             ))}
           </Grid>
           <Hidden smDown>
@@ -158,6 +82,9 @@ const mapDispatchToProps = dispatch => ({
   getAllStatics: () => {
     return dispatch(staticAction.getAllStatics());
   },
+  getAllShows: () => {
+    return dispatch(showsAction.getAllShows());
+  },
   requestToShowToast: (variant, message) => {
     return dispatch(toastAction.requestToShowToast(variant, message));
   },
@@ -168,6 +95,7 @@ const mapStateToProps = createStructuredSelector({
   types: staticSelector.getAllTypes(),
   languages: staticSelector.getAllLanguages(),
   genres: staticSelector.getAllGenres(),
+  shows: showsSelector.getAllShows(),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(IndexPage);

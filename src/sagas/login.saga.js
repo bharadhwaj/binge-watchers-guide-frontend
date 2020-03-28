@@ -18,10 +18,10 @@ function* loginSubmitWorker({ payload }) {
     handleError(axios);
     const requestURL = urls.LOGIN_URL;
 
-    const { email, password } = payload;
+    const { username, password } = payload;
 
     const body = {
-      email,
+      username,
       password,
     };
 
