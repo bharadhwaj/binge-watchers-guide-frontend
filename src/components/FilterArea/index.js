@@ -1,8 +1,6 @@
 import React from 'react';
 
 import Button from '@material-ui/core/Button';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
 import Chip from '@material-ui/core/Chip';
 import Divider from '@material-ui/core/Divider';
 import Grid from '@material-ui/core/Grid';
@@ -126,35 +124,33 @@ const FilterArea = props => {
   return (
     <>
       <Grid className={classes.filterArea}>
-        <Card>
-          <CardContent>
+        <Grid container justify="space-between">
+          <Grid item xs>
+            <Typography variant="h6">Filters</Typography>
+          </Grid>
+
+          {allFilterValues && allFilterValues.length > 0 && (
+            <Grid item xs={4}>
+              <Button
+                color="primary"
+                fullWidth
+                disabled={allFilterValues && allFilterValues.length < 1}
+                onClick={handleResetFilter}
+              >
+                Clear All
+              </Button>
+            </Grid>
+          )}
+        </Grid>
+
+        <Paper className={classes.filterChipsArea} elevation={0}>
+          {filterChipComponent}
+        </Paper>
+
+        {allFilterValues && allFilterValues.length > 0 && (
+          <>
             <Hidden smDown>
-              <Grid container justify="space-between">
-                <Grid item xs>
-                  <Typography variant="h6">Filters</Typography>
-                </Grid>
-
-                {allFilterValues && allFilterValues.length > 0 && (
-                  <Grid item xs={4}>
-                    <Button
-                      color="primary"
-                      fullWidth
-                      disabled={allFilterValues && allFilterValues.length < 1}
-                      onClick={handleResetFilter}
-                    >
-                      Clear All
-                    </Button>
-                  </Grid>
-                )}
-              </Grid>
-            </Hidden>
-
-            <Paper className={classes.filterChipsArea} elevation={0}>
-              {filterChipComponent}
-            </Paper>
-
-            {allFilterValues && allFilterValues.length > 0 && (
-              <Grid item xs={5}>
+              <Grid item md={5}>
                 <Button
                   variant="outlined"
                   color="primary"
@@ -164,37 +160,50 @@ const FilterArea = props => {
                   Apply
                 </Button>
               </Grid>
-            )}
+            </Hidden>
 
-            <Divider className={classes.divider} />
+            <Hidden mdUp>
+              <Grid container justify="center">
+                <Grid item xs={6}>
+                  <Button
+                    variant="outlined"
+                    color="primary"
+                    fullWidth
+                    disabled={allFilterValues && allFilterValues.length < 1}
+                  >
+                    Apply
+                  </Button>
+                </Grid>
+              </Grid>
+            </Hidden>
+          </>
+        )}
 
-            <ListFilters
-              title="Types"
-              values={types}
-              expanded={typeExpanded}
-              handleExpansion={() => handleExpansion(utils.FILTER_TYPES.TYPE)}
-              handleOnCheckBoxClick={handleOnCheckBoxClick}
-            />
+        <Divider className={classes.divider} />
 
-            <ListFilters
-              title="Languages"
-              values={languages}
-              expanded={languageExpanded}
-              handleExpansion={() =>
-                handleExpansion(utils.FILTER_TYPES.LANGUAGE)
-              }
-              handleOnCheckBoxClick={handleOnCheckBoxClick}
-            />
+        <ListFilters
+          title="Types"
+          values={types}
+          expanded={typeExpanded}
+          handleExpansion={() => handleExpansion(utils.FILTER_TYPES.TYPE)}
+          handleOnCheckBoxClick={handleOnCheckBoxClick}
+        />
 
-            <ListFilters
-              title="Genres"
-              values={genres}
-              expanded={genreExpanded}
-              handleExpansion={() => handleExpansion(utils.FILTER_TYPES.GENRE)}
-              handleOnCheckBoxClick={handleOnCheckBoxClick}
-            />
-          </CardContent>
-        </Card>
+        <ListFilters
+          title="Languages"
+          values={languages}
+          expanded={languageExpanded}
+          handleExpansion={() => handleExpansion(utils.FILTER_TYPES.LANGUAGE)}
+          handleOnCheckBoxClick={handleOnCheckBoxClick}
+        />
+
+        <ListFilters
+          title="Genres"
+          values={genres}
+          expanded={genreExpanded}
+          handleExpansion={() => handleExpansion(utils.FILTER_TYPES.GENRE)}
+          handleOnCheckBoxClick={handleOnCheckBoxClick}
+        />
       </Grid>
     </>
   );

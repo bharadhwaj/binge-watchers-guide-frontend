@@ -130,6 +130,7 @@ const Register = props => {
                       </InputAdornment>
                     ),
                   }}
+                  autoComplete="true"
                   fullWidth
                 />
               </Grid>

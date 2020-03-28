@@ -6,14 +6,17 @@ import { createStructuredSelector } from 'reselect';
 import Grid from '@material-ui/core/Grid';
 import Hidden from '@material-ui/core/Hidden';
 
-import FilterArea from '../components/FilterArea';
+import FilterAreaMobile from '../components/FilterAreaMobile';
+import FilterAreaWeb from '../components/FilterAreaWeb';
 import MovieDescription from '../components/MovieDescription';
 import Navbar from '../components/Navbar';
+
 import { utils } from '../constants';
 
 class IndexPage extends Component {
   render() {
     const { redirectToPage } = this.props;
+
     const recommendations = [
       {
         _id: '1',
@@ -196,7 +199,11 @@ class IndexPage extends Component {
         <Grid container justify="flex-start">
           <Hidden mdUp>
             <Grid item xs={12}>
-              <FilterArea types={types} languages={languages} genres={genres} />
+              <FilterAreaMobile
+                types={types}
+                languages={languages}
+                genres={genres}
+              />
             </Grid>
           </Hidden>
           <Grid item xs={12} md={8}>
@@ -204,7 +211,11 @@ class IndexPage extends Component {
           </Grid>
           <Hidden smDown>
             <Grid item md>
-              <FilterArea types={types} languages={languages} genres={genres} />
+              <FilterAreaWeb
+                types={types}
+                languages={languages}
+                genres={genres}
+              />
             </Grid>
           </Hidden>
         </Grid>

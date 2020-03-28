@@ -1,6 +1,6 @@
 const style = theme => ({
   filterArea: {
-    margin: theme.spacing(3, 1),
+    margin: theme.spacing(1),
   },
   filterChipsArea: {
     marginTop: '.5rem',
