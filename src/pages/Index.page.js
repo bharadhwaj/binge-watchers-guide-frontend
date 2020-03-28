@@ -11,11 +11,25 @@ import FilterAreaWeb from '../components/FilterAreaWeb';
 import MovieDescription from '../components/MovieDescription';
 import Navbar from '../components/Navbar';
 
-import { utils } from '../constants';
+import { staticAction, toastAction } from '../actions';
+import { staticSelector, userSelector } from '../selectors';
 
 class IndexPage extends Component {
+  componentDidMount() {
+    const { getAllStatics } = this.props;
+
+    getAllStatics();
+  }
+
   render() {
-    const { redirectToPage } = this.props;
+    const {
+      redirectToPage,
+      requestToShowToast,
+      isUserLoggedIn,
+      types,
+      languages,
+      genres,
+    } = this.props;
 
     const recommendations = [
       {
@@ -95,107 +109,13 @@ class IndexPage extends Component {
       },
     ];
 
-    const types = [
-      {
-        _id: 1,
-        name: 'Movies',
-        type: utils.FILTER_TYPES.TYPE,
-        isChecked: false,
-      },
-      {
-        _id: 2,
-        name: 'Series',
-        type: utils.FILTER_TYPES.TYPE,
-        isChecked: false,
-      },
-      {
-        _id: 3,
-        name: 'Documentary',
-        type: utils.FILTER_TYPES.TYPE,
-        isChecked: false,
-      },
-    ];
-
-    const languages = [
-      {
-        _id: 1,
-        name: 'Malayalam',
-        type: utils.FILTER_TYPES.LANGUAGE,
-        isChecked: false,
-      },
-      {
-        _id: 2,
-        name: 'Tamil',
-        type: utils.FILTER_TYPES.LANGUAGE,
-        isChecked: false,
-      },
-      {
-        _id: 3,
-        name: 'Hindi',
-        type: utils.FILTER_TYPES.LANGUAGE,
-        isChecked: false,
-      },
-      {
-        _id: 4,
-        name: 'English',
-        type: utils.FILTER_TYPES.LANGUAGE,
-        isChecked: false,
-      },
-      {
-        _id: 5,
-        name: 'Others',
-        type: utils.FILTER_TYPES.LANGUAGE,
-        isChecked: false,
-      },
-    ];
-
-    const genres = [
-      {
-        _id: 1,
-        name: 'Drama',
-        type: utils.FILTER_TYPES.GENRE,
-        isChecked: false,
-      },
-      {
-        _id: 2,
-        name: 'Horror',
-        type: utils.FILTER_TYPES.GENRE,
-        isChecked: false,
-      },
-      {
-        _id: 3,
-        name: 'Sci-fi',
-        type: utils.FILTER_TYPES.GENRE,
-        isChecked: false,
-      },
-      {
-        _id: 4,
-        name: 'Thriller',
-        type: utils.FILTER_TYPES.GENRE,
-        isChecked: false,
-      },
-      {
-        _id: 5,
-        name: 'Comedy',
-        type: utils.FILTER_TYPES.GENRE,
-        isChecked: false,
-      },
-      {
-        _id: 6,
-        name: 'Romantic',
-        type: utils.FILTER_TYPES.GENRE,
-        isChecked: false,
-      },
-    ];
-
-    const movieList = recommendations.map(recommendation => (
-      <MovieDescription key={recommendation._id} {...recommendation} />
-    ));
     return (
       <>
         <>
           <Navbar
             redirectToPage={redirectToPage}
+            requestToShowToast={requestToShowToast}
+            isUserLoggedIn={isUserLoggedIn}
             types={types}
             languages={languages}
             genres={genres}
@@ -212,7 +132,9 @@ class IndexPage extends Component {
             </Grid>
           </Hidden>
           <Grid item xs={12} md={8}>
-            {movieList}
+            {recommendations.map(recommendation => (
+              <MovieDescription key={recommendation._id} {...recommendation} />
+            ))}
           </Grid>
           <Hidden smDown>
             <Grid item md>
@@ -233,8 +155,19 @@ const mapDispatchToProps = dispatch => ({
   redirectToPage: url => {
     return dispatch(push(url));
   },
+  getAllStatics: () => {
+    return dispatch(staticAction.getAllStatics());
+  },
+  requestToShowToast: (variant, message) => {
+    return dispatch(toastAction.requestToShowToast(variant, message));
+  },
 });
 
-const mapStateToProps = createStructuredSelector({});
+const mapStateToProps = createStructuredSelector({
+  isUserLoggedIn: userSelector.isUserLoggedIn(),
+  types: staticSelector.getAllTypes(),
+  languages: staticSelector.getAllLanguages(),
+  genres: staticSelector.getAllGenres(),
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(IndexPage);

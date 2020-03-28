@@ -15,3 +15,11 @@ export function startLoginLoading() {
 export function stopLoginLoading() {
   return { type: LOADING.STOP_LOGIN_LOADING };
 }
+
+export function startAddShowLoading() {
+  return { type: LOADING.START_ADD_SHOW_LOADING };
+}
+
+export function stopAddShowLoading() {
+  return { type: LOADING.STOP_ADD_SHOW_LOADING };
+}

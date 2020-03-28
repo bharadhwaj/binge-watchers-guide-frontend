@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { all, put, takeLatest } from '@redux-saga/core/effects';
-import { push } from 'connected-react-router';
 
 import { loadingAction, toastAction } from '../actions';
 
@@ -45,7 +44,6 @@ function* loginSubmitWorker({ payload }) {
       );
 
       // yield put(userAction.updateBasicUserInfo(user));
-      yield put(push('/'));
     }
   } catch (error) {
     yield put(loadingAction.stopLoginLoading());

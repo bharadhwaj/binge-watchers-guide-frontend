@@ -4,6 +4,8 @@ export const LOADING = {
   STOP_REGISTER_LOADING: 'bwg/Loading/STOP_REGISTER_LOADING',
   START_LOGIN_LOADING: 'bwg/Loading/START_LOGIN_LOADING',
   STOP_LOGIN_LOADING: 'bwg/Loading/STOP_LOGIN_LOADING',
+  START_ADD_SHOW_LOADING: 'bwg/Loading/START_ADD_SHOW_LOADING',
+  STOP_ADD_SHOW_LOADING: 'bwg/Loading/STOP_ADD_SHOW_LOADING',
 };
 
 // ------------------ TOAST ACTIONS ------------------ //
@@ -22,4 +24,17 @@ export const REGISTER = {
 export const LOGIN = {
   SUBMIT_FOR_LOGIN: 'bwg/Login/SUBMIT_FOR_LOGIN',
   RESET_LOGIN_STATE: 'bwg/Login/RESET_LOGIN_STATE',
+};
+
+// ------------------ USER ACTIONS ------------------ //
+export const USER = {
+  UPDATE_USER_DATA: 'bwg/User/UPDATE_USER_DATA',
+};
+
+// ------------------ STATIC ACTIONS ------------------ //
+export const STATIC = {
+  GET_ALL_STATICS: 'bwg/Static/GET_ALL_STATICS',
+  UPDATE_TYPE_DATA: 'bwg/Static/UPDATE_TYPE_DATA',
+  UPDATE_LANGUAGE_DATA: 'bwg/Static/UPDATE_LANGUAGE_DATA',
+  UPDATE_GENRE_DATA: 'bwg/Static/UPDATE_GENRE_DATA',
 };

@@ -26,8 +26,18 @@ import BWGMobileLogo from '../../assets/bwg_mobile_logo.png';
 
 import style from './style';
 
+import { utils } from '../../constants';
+
 const Navbar = props => {
-  const { redirectToPage, types, languages, genres } = props;
+  const {
+    redirectToPage,
+    requestToShowToast,
+    isUserLoggedIn,
+    types,
+    languages,
+    genres,
+  } = props;
+
   const classes = makeStyles(style)();
   const theme = useTheme();
   const isMobileView = useMediaQuery(theme.breakpoints.down('sm'));
@@ -53,11 +63,23 @@ const Navbar = props => {
   };
 
   const handleOpenAddShowPopup = () => {
-    setAddShowPopupState(true);
+    if (isUserLoggedIn) {
+      setAddShowPopupState(true);
+    } else {
+      requestToShowToast(
+        utils.MESSAGE_VARIANTS.INFO,
+        'You have to login first.'
+      );
+      setLoginPopupState(true);
+    }
   };
 
   const handleCloseAddShowPopup = () => {
-    setAddShowPopupState(false);
+    if (isUserLoggedIn) {
+      setAddShowPopupState(false);
+    } else {
+      setLoginPopupState(false);
+    }
   };
 
   return (
