@@ -1,7 +1,7 @@
 import { SHOWS } from '../constants/actions';
 
-export function getAllShows() {
-  return { type: SHOWS.GET_ALL_SHOWS };
+export function getAllShows(types, languages, genres) {
+  return { type: SHOWS.GET_ALL_SHOWS, payload: { types, languages, genres } };
 }
 
 export function addShows(shows) {

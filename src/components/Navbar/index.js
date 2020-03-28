@@ -60,7 +60,7 @@ const Navbar = props => {
   };
 
   const handleOpenAddShowPopup = () => {
-    if (isUserLoggedIn) {
+    if (!isUserLoggedIn) {
       setAddShowPopupState(true);
     } else {
       requestToShowToast(
@@ -72,7 +72,7 @@ const Navbar = props => {
   };
 
   const handleCloseAddShowPopup = () => {
-    if (isUserLoggedIn) {
+    if (!isUserLoggedIn) {
       setAddShowPopupState(false);
     } else {
       setLoginPopupState(false);
