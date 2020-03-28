@@ -7,6 +7,10 @@ const style = theme => ({
     border: '1px solid #C3C3C3',
     borderRadius: 4,
   },
+  multipleSelectError: {
+    border: '1px solid red',
+    borderRadius: 4,
+  },
   multipleSelectLabel: {
     background: '#FFF',
     paddingLeft: theme.spacing(0.5),
