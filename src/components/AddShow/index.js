@@ -1,69 +1,84 @@
 import React from 'react';
 
 import Button from '@material-ui/core/Button';
+import Chip from '@material-ui/core/Chip';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import FormControl from '@material-ui/core/FormControl';
 import Grid from '@material-ui/core/Grid';
-import IconButton from '@material-ui/core/IconButton';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import Link from '@material-ui/core/Link';
+import Input from '@material-ui/core/Input';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import Select from '@material-ui/core/Select';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 
-import { makeStyles } from '@material-ui/core/styles';
-
-import Visibility from '@material-ui/icons/Visibility';
-import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
 
 import style from './style';
 
 import { regex } from '../../constants';
 
-const AddEntry = props => {
+const AddShow = props => {
   const {
     handleOpenLoginPopup,
     handleCloseRegisterPopup,
-    onRegisterSubmit,
-    isRegisterSubmitLoading,
+    onAddShowSubmit,
+    isAddShowSubmitLoading,
+    types,
+    languages,
+    genres,
   } = props;
 
   const classes = makeStyles(style)();
+  const theme = useTheme();
 
-  const [username, setUsernameValue] = React.useState('');
-  const [usernameError, setUsernameError] = React.useState(false);
-  const [password, setPasswordValue] = React.useState('');
-  const [passwordVisible, setPasswordVisibility] = React.useState(false);
+  const [name, setNameValue] = React.useState('');
 
-  const handleUsernameTyping = event => {
-    if (
-      regex.USERNAME_TYPING.test(event.target.value) ||
-      event.target.value === ''
-    ) {
-      setUsernameError(false);
+  const [url, setUrlValue] = React.useState('');
+  const [urlError, setUrlError] = React.useState(false);
+
+  const [typeId, setTypeValue] = React.useState('');
+  const [languageId, setLanguageValue] = React.useState('');
+  const [genreIds, setGenresValue] = React.useState([]);
+
+  const getStyles = genreId => ({
+    fontWeight:
+      genreIds.indexOf(genreId) === -1
+        ? theme.typography.fontWeightRegular
+        : theme.typography.fontWeightBold,
+  });
+
+  const handleNameTyping = event => {
+    setNameValue(event.target.value);
+  };
+
+  const handleUrlTyping = event => {
+    setUrlValue(event.target.value);
+  };
+
+  const checkUrlValue = event => {
+    if (regex.URL.test(event.target.value) || event.target.value === '') {
+      setUrlError(false);
     } else {
-      setUsernameError(true);
-    }
-    setUsernameValue(event.target.value);
-  };
-
-  const checkUsername = event => {
-    if (regex.USERNAME.test(event.target.value) || event.target.value === '') {
-      setUsernameError(false);
-    } else {
-      setUsernameError(true);
+      setUrlError(true);
     }
   };
 
-  const handlePasswordTyping = event => {
-    setPasswordValue(event.target.value);
+  const handleTypeSelect = event => {
+    setTypeValue(event.target.value);
   };
 
-  const handleTogglePasswordVisibility = () => {
-    setPasswordVisibility(!passwordVisible);
+  const handleLanguageSelect = event => {
+    setLanguageValue(event.target.value);
   };
 
-  const handleRegisterSubmit = event => {
+  const handleGenresSelect = event => {
+    setGenresValue(event.target.value);
+  };
+
+  const handleAddShowSubmit = event => {
     event.preventDefault();
-    onRegisterSubmit(username, password);
+    onAddShowSubmit(name, url, typeId, languageId, genreIds);
   };
 
   const handleLoginClick = event => {
@@ -76,99 +91,157 @@ const AddEntry = props => {
     <>
       <Grid container spacing={1} justify="center" alignContent="center">
         <Grid item xs={12} sm={10}>
-          <Grid container justify="center" className={classes.registerElement}>
-            <Typography variant="h4">Register</Typography>
+          <Grid container justify="center" className={classes.addShowElement}>
+            <Typography variant="h4">Add Show</Typography>
           </Grid>
-          <form onSubmit={handleRegisterSubmit}>
-            <Grid
-              container
-              justify="center"
-              className={classes.registerElement}
-            >
+          <form onSubmit={handleAddShowSubmit}>
+            <Grid container justify="center" className={classes.addShowElement}>
               <Grid item xs={12} sm={10}>
                 <TextField
-                  id="email"
+                  id="name"
                   variant="outlined"
-                  label="Username"
-                  placeholder="rajnikanth"
-                  value={username}
-                  onChange={handleUsernameTyping}
-                  onBlur={checkUsername}
-                  error={usernameError}
-                  helperText={usernameError && 'Invalid username format.'}
+                  label="Name"
+                  placeholder="The Shawshank Redemption"
+                  value={name}
+                  onChange={handleNameTyping}
                   InputLabelProps={{ shrink: true }}
                   autoFocus
                   fullWidth
                 />
               </Grid>
             </Grid>
-            <Grid
-              container
-              justify="center"
-              className={classes.registerElement}
-            >
+
+            <Grid container justify="center" className={classes.addShowElement}>
               <Grid item xs={12} sm={10}>
                 <TextField
-                  id="password"
+                  id="url"
                   variant="outlined"
-                  type={passwordVisible ? 'text' : 'password'}
-                  label="Password"
-                  placeholder="●●●●●●●●"
-                  value={password}
-                  onChange={handlePasswordTyping}
+                  label="URL (Optional)"
+                  placeholder=""
+                  value={url}
+                  onChange={handleUrlTyping}
+                  onBlur={checkUrlValue}
+                  error={urlError}
+                  helperText={urlError && 'Invalid URL format.'}
                   InputLabelProps={{ shrink: true }}
-                  InputProps={{
-                    endAdornment: (
-                      <InputAdornment position="end">
-                        <IconButton
-                          aria-label="toggle password visibility"
-                          edge="end"
-                          onClick={handleTogglePasswordVisibility}
-                        >
-                          {passwordVisible ? <Visibility /> : <VisibilityOff />}
-                        </IconButton>
-                      </InputAdornment>
-                    ),
-                  }}
                   fullWidth
                 />
               </Grid>
             </Grid>
-            <Grid
-              container
-              justify="center"
-              className={classes.registerElement}
-            >
+
+            <Grid container justify="center" className={classes.addShowElement}>
+              <Grid item xs={12} sm={10}>
+                <FormControl variant="outlined" fullWidth>
+                  <InputLabel id="select-type-label">Type</InputLabel>
+                  <Select
+                    labelId="select-type-label"
+                    id="select-type"
+                    value={typeId}
+                    onChange={handleTypeSelect}
+                    labelWidth={35}
+                    fullWidth
+                  >
+                    {types.map(type => (
+                      <MenuItem key={type._id} value={type._id}>
+                        {type.name}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </Grid>
+            </Grid>
+
+            <Grid container justify="center" className={classes.addShowElement}>
+              <Grid item xs={12} sm={10}>
+                <FormControl variant="outlined" fullWidth>
+                  <InputLabel id="select-language-label">Language</InputLabel>
+                  <Select
+                    labelId="select-language-label"
+                    id="select-language"
+                    value={languageId}
+                    onChange={handleLanguageSelect}
+                    labelWidth={67}
+                    fullWidth
+                  >
+                    {languages.map(language => (
+                      <MenuItem key={language._id} value={language._id}>
+                        {language.name}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </Grid>
+            </Grid>
+
+            <Grid container justify="center" className={classes.addShowElement}>
+              <Grid item xs={12} sm={10}>
+                <FormControl
+                  className={classes.multipleSelect}
+                  variant="outlined"
+                  fullWidth
+                >
+                  <InputLabel
+                    className={classes.multipleSelectLabel}
+                    id="select-genres-chip-label"
+                  >
+                    Genre (Max 3)
+                  </InputLabel>
+                  <Select
+                    labelId="select-genres-chip-label"
+                    id="genres-chip"
+                    value={genreIds}
+                    onChange={handleGenresSelect}
+                    labelWidth={67}
+                    input={<Input id="select-genres-chip" />}
+                    renderValue={selected => (
+                      <Grid className={classes.chips}>
+                        {selected.map(value => (
+                          <Chip
+                            key={value}
+                            label={
+                              genres.find(genre => genre._id == value).name
+                            }
+                            className={classes.chip}
+                          />
+                        ))}
+                      </Grid>
+                    )}
+                    multiple
+                    fullWidth
+                  >
+                    {genres.map(genre => (
+                      <MenuItem
+                        key={genre._id}
+                        value={genre._id}
+                        style={getStyles(genre._id)}
+                      >
+                        {genre.name}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </Grid>
+            </Grid>
+
+            <Grid container justify="center" className={classes.lastElement}>
               <Grid item xs={12} sm={10}>
                 <Button
                   variant="outlined"
                   color="primary"
                   size="large"
-                  disabled={usernameError || username === '' || password === ''}
-                  onClick={handleRegisterSubmit}
+                  disabled={urlError || name === ''}
+                  onClick={handleAddShowSubmit}
                   fullWidth
                 >
-                  {!isRegisterSubmitLoading ? 'Register' : <CircularProgress />}
+                  {!isAddShowSubmitLoading ? 'Register' : <CircularProgress />}
                 </Button>
               </Grid>
             </Grid>
           </form>
-        </Grid>
-        <Grid container justify="center" className={classes.registerElement}>
-          <Grid item xs={12} sm={10}>
-            <Grid container justify="center">
-              <Typography variant="subtitle1">
-                Already registered?{' '}
-                <Link href="" onClick={handleLoginClick}>
-                  Login Here.
-                </Link>
-              </Typography>
-            </Grid>
-          </Grid>
         </Grid>
       </Grid>
     </>
   );
 };
 
-export default AddEntry;
+export default AddShow;

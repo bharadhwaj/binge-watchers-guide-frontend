@@ -15,6 +15,7 @@ import PersonAddRoundedIcon from '@material-ui/icons/PersonAddRounded';
 
 import { useTheme, makeStyles } from '@material-ui/core/styles';
 
+import AddShow from '../AddShow';
 import ElevationScroll from '../ElevationScroll';
 import Login from '../Login';
 import Register from '../Register';
@@ -26,14 +27,14 @@ import BWGMobileLogo from '../../assets/bwg_mobile_logo.png';
 import style from './style';
 
 const Navbar = props => {
-  const { redirectToPage } = props;
+  const { redirectToPage, types, languages, genres } = props;
   const classes = makeStyles(style)();
   const theme = useTheme();
   const isMobileView = useMediaQuery(theme.breakpoints.down('sm'));
 
   const [loginPopupState, setLoginPopupState] = React.useState(false);
   const [registerPopupState, setRegisterPopupState] = React.useState(false);
-  // const [addShowPopupState, setAddShowPopupState] = React.useState(false);
+  const [addShowPopupState, setAddShowPopupState] = React.useState(false);
 
   const handleOpenLoginPopup = () => {
     setLoginPopupState(true);
@@ -51,10 +52,18 @@ const Navbar = props => {
     setRegisterPopupState(false);
   };
 
+  const handleOpenAddShowPopup = () => {
+    setAddShowPopupState(true);
+  };
+
+  const handleCloseAddShowPopup = () => {
+    setAddShowPopupState(false);
+  };
+
   return (
     <>
       <ElevationScroll {...props}>
-        <AppBar className={classes.root} position="sticky" elevation={0}>
+        <AppBar className={classes.navbar} position="sticky" elevation={0}>
           <Toolbar>
             <Grid container justify="space-between" alignItems="center">
               <Grid item>
@@ -69,10 +78,7 @@ const Navbar = props => {
                 <Grid container justify="space-between" alignItems="center">
                   <Grid item xs={8}>
                     {isMobileView ? (
-                      <IconButton
-                        aria-label="delete"
-                        className={classes.margin}
-                      >
+                      <IconButton onClick={handleOpenAddShowPopup}>
                         <LibraryAddRoundedIcon color="primary" />
                       </IconButton>
                     ) : (
@@ -81,7 +87,7 @@ const Navbar = props => {
                           color="primary"
                           size="large"
                           startIcon={<LibraryAddRoundedIcon />}
-                          onClick={handleOpenLoginPopup}
+                          onClick={handleOpenAddShowPopup}
                         >
                           Add your entry
                         </Button>
@@ -160,6 +166,29 @@ const Navbar = props => {
                 handleOpenLoginPopup={handleOpenLoginPopup}
                 handleCloseRegisterPopup={handleCloseRegisterPopup}
               />
+            </Grid>
+          </Grid>
+        </DialogContent>
+      </Dialog>
+      <Dialog
+        open={addShowPopupState}
+        TransitionComponent={SlideTransition}
+        fullWidth
+        maxWidth="sm"
+        keepMounted={false}
+        onClose={handleCloseAddShowPopup}
+      >
+        <DialogContent>
+          <Grid container>
+            <Grid item xs={12}>
+              <Grid container justify="flex-end">
+                <IconButton onClick={handleCloseAddShowPopup}>
+                  <CloseRoundedIcon />
+                </IconButton>
+              </Grid>
+            </Grid>
+            <Grid item xs={12}>
+              <AddShow types={types} languages={languages} genres={genres} />
             </Grid>
           </Grid>
         </DialogContent>

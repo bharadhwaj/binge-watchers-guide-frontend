@@ -194,7 +194,12 @@ class IndexPage extends Component {
     return (
       <>
         <>
-          <Navbar redirectToPage={redirectToPage} />
+          <Navbar
+            redirectToPage={redirectToPage}
+            types={types}
+            languages={languages}
+            genres={genres}
+          />
         </>
         <Grid container justify="flex-start">
           <Hidden mdUp>
