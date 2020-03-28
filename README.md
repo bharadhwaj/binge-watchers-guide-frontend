@@ -5,8 +5,8 @@
 Clone the repository.
 
 ```sh
-$ git clone https://github.com/bharadhwaj/kudos-app.git
-$ cd kudos-app/frontend/
+$ git clone https://github.com/bharadhwaj/binge-watchers-guide-frontend.git
+$ cd binge-watchers-guide-frontend/
 $ yarn install
 ```
 
@@ -15,6 +15,7 @@ To start running this, you might need an `.env` file.
 ```sh
 $ touch .env
 ```
+
 The `.env` should contain following keys for the smooth running of app.
 
 ```dosini
@@ -23,16 +24,15 @@ REACT_APP_API_BASE_URL="<API_URL>/v1" # The API URL with the version (http://loc
 ```
 
 To start the server
+
 ```sh
 $ yarn start
 ```
 
 In sometime you should see a tab loading this webpage in your browser.
 
-License
-----
+## License
 
 MIT
-
 
 **Free Software, Hell Yeah!**
