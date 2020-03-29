@@ -1,5 +1,7 @@
 // ------------------ LOADING ACTIONS ------------------ //
 export const LOADING = {
+  START_CHECK_USERNAME_LOADING: 'bwg/Loading/START_CHECK_USERNAME_LOADING',
+  STOP_CHECK_USERNAME_LOADING: 'bwg/Loading/STOP_CHECK_USERNAME_LOADING',
   START_REGISTER_LOADING: 'bwg/Loading/START_REGISTER_LOADING',
   STOP_REGISTER_LOADING: 'bwg/Loading/STOP_REGISTER_LOADING',
   START_LOGIN_LOADING: 'bwg/Loading/START_LOGIN_LOADING',
@@ -17,6 +19,7 @@ export const TOAST = {
 
 // ------------------ REGISTER ACTIONS ------------------ //
 export const REGISTER = {
+  CHECK_USERNAME: 'bwg/Register/CHECK_USERNAME',
   REGISTER_USER: 'bwg/Register/REGISTER_USER',
 };
 
@@ -29,6 +32,7 @@ export const LOGIN = {
 // ------------------ USER ACTIONS ------------------ //
 export const USER = {
   UPDATE_USER_DATA: 'bwg/User/UPDATE_USER_DATA',
+  RESET_USER_DATA: 'bwg/User/RESET_USER_DATA',
 };
 
 // ------------------ STATIC ACTIONS ------------------ //

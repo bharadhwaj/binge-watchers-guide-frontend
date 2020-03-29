@@ -17,5 +17,5 @@ export const getAuthToken = () =>
 export const getCurrentUserId = () =>
   createSelector(selectUserState, userState => userState._id);
 
-export const getCurrentUserInfo = () =>
-  createSelector(selectUserState, userState => userState);
+export const getCurrentUsername = () =>
+  createSelector(selectUserState, userState => userState.username);

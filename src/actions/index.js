@@ -4,6 +4,7 @@ import * as registerAction from './register.action';
 import * as showsAction from './shows.action';
 import * as staticAction from './static.action';
 import * as toastAction from './toast.action';
+import * as userAction from './user.action';
 
 export {
   loadingAction,
@@ -12,4 +13,5 @@ export {
   showsAction,
   staticAction,
   toastAction,
+  userAction,
 };

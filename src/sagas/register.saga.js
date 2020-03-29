@@ -1,8 +1,7 @@
 import axios from 'axios';
 import { all, put, takeLatest } from '@redux-saga/core/effects';
-import { push } from 'connected-react-router';
 
-import { loadingAction, toastAction } from '../actions';
+import { loadingAction, toastAction, userAction } from '../actions';
 
 import { actions, urls, utils } from '../constants';
 
@@ -14,12 +13,38 @@ import { updateUserLoginInfo } from '../utils/users';
  * -----------------------------------------
  */
 
+function* checkUsernameWorker({ payload }) {
+  try {
+    handleError(axios);
+
+    const { username } = payload;
+
+    const requestURL = urls.CHECK_USERNAME.replace(/<USER_NAME>/, username);
+
+    const headers = {
+      'Content-Type': 'application/json',
+    };
+
+    const response = yield axios.get(requestURL, { headers });
+
+    yield put(loadingAction.stopCheckUsernameLoading());
+
+    if (response && response.status === 200) {
+      // const { data } = response;
+      // const { message } = data;
+      // const { user } = data.data;
+    }
+  } catch (error) {
+    yield put(loadingAction.stopCheckUsernameLoading());
+  }
+}
+
 function* registerSubmitWorker({ payload }) {
   try {
     handleError(axios);
     const requestURL = urls.REGISTER_URL;
 
-    const body = payload.userData;
+    const body = payload;
 
     const headers = {
       'Content-Type': 'application/json',
@@ -40,8 +65,7 @@ function* registerSubmitWorker({ payload }) {
         toastAction.requestToShowToast(utils.MESSAGE_VARIANTS.SUCCESS, message)
       );
 
-      // yield put(userAction.updateBasicUserInfo(user));
-      yield put(push('/'));
+      yield put(userAction.updateUserData(user));
     }
   } catch (error) {
     yield put(loadingAction.stopRegisterLoading());
@@ -53,10 +77,14 @@ function* registerSubmitWorker({ payload }) {
  * -----------------------------------------
  */
 
+function* checkUsernameWatcher() {
+  yield takeLatest(actions.REGISTER.CHECK_USERNAME, checkUsernameWorker);
+}
+
 function* registerSubmitWatcher() {
   yield takeLatest(actions.REGISTER.REGISTER_USER, registerSubmitWorker);
 }
 
 export default function* registerSaga() {
-  yield all([registerSubmitWatcher()]);
+  yield all([checkUsernameWatcher(), registerSubmitWatcher()]);
 }

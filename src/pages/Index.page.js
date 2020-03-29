@@ -11,8 +11,18 @@ import FilterAreaWeb from '../components/FilterAreaWeb';
 import MovieDescription from '../components/MovieDescription';
 import Navbar from '../components/Navbar';
 
-import { staticAction, toastAction, showsAction } from '../actions';
+import {
+  loadingAction,
+  loginAction,
+  registerAction,
+  showsAction,
+  staticAction,
+  toastAction,
+  userAction,
+} from '../actions';
 import { showsSelector, staticSelector, userSelector } from '../selectors';
+
+import { logoutUser } from '../utils/users';
 
 class IndexPage extends Component {
   componentDidMount() {
@@ -26,7 +36,11 @@ class IndexPage extends Component {
     const {
       redirectToPage,
       requestToShowToast,
+      onRegisterSubmit,
+      onLoginSubmit,
+      logoutUser,
       isUserLoggedIn,
+      username,
       types,
       languages,
       genres,
@@ -39,7 +53,11 @@ class IndexPage extends Component {
           <Navbar
             redirectToPage={redirectToPage}
             requestToShowToast={requestToShowToast}
+            onRegisterSubmit={onRegisterSubmit}
+            onLoginSubmit={onLoginSubmit}
+            logoutUser={logoutUser}
             isUserLoggedIn={isUserLoggedIn}
+            username={username}
             types={types}
             languages={languages}
             genres={genres}
@@ -88,10 +106,27 @@ const mapDispatchToProps = dispatch => ({
   requestToShowToast: (variant, message) => {
     return dispatch(toastAction.requestToShowToast(variant, message));
   },
+  checkUsername: username => {
+    dispatch(loadingAction.startRegisterLoading());
+    return dispatch(registerAction.registerUser(username));
+  },
+  onRegisterSubmit: (username, password) => {
+    dispatch(loadingAction.startRegisterLoading());
+    return dispatch(registerAction.registerUser(username, password));
+  },
+  onLoginSubmit: (username, password) => {
+    dispatch(loadingAction.startLoginLoading());
+    return dispatch(loginAction.submitForLogin(username, password));
+  },
+  logoutUser: () => {
+    logoutUser();
+    return dispatch(userAction.resetUserData());
+  },
 });
 
 const mapStateToProps = createStructuredSelector({
   isUserLoggedIn: userSelector.isUserLoggedIn(),
+  username: userSelector.getCurrentUsername(),
   types: staticSelector.getAllTypes(),
   languages: staticSelector.getAllLanguages(),
   genres: staticSelector.getAllGenres(),

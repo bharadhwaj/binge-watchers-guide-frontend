@@ -1,6 +1,7 @@
 import { LOADING } from '../constants/actions';
 
 const initialState = {
+  isCheckUsernameLoading: false,
   isRegisterSubmitLoading: false,
   isLoginSubmitLoading: false,
   isAddShowSubmitLoading: false,
@@ -8,6 +9,18 @@ const initialState = {
 
 export default function loadingReducer(state = initialState, action) {
   switch (action.type) {
+    case LOADING.START_CHECK_USERNAME_LOADING:
+      return {
+        ...state,
+        isCheckUsernameLoading: true,
+      };
+
+    case LOADING.STOP_CHECK_USERNAME_LOADING:
+      return {
+        ...state,
+        isCheckUsernameLoading: false,
+      };
+
     case LOADING.START_REGISTER_LOADING:
       return {
         ...state,

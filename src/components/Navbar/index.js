@@ -10,6 +10,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 import CloseRoundedIcon from '@material-ui/icons/CloseRounded';
+import ExitToAppRoundedIcon from '@material-ui/icons/ExitToAppRounded';
 import LibraryAddRoundedIcon from '@material-ui/icons/LibraryAddRounded';
 import PersonAddRoundedIcon from '@material-ui/icons/PersonAddRounded';
 
@@ -29,7 +30,11 @@ const Navbar = props => {
   const {
     redirectToPage,
     requestToShowToast,
+    onRegisterSubmit,
+    onLoginSubmit,
+    logoutUser,
     isUserLoggedIn,
+    username,
     types,
     languages,
     genres,
@@ -42,6 +47,15 @@ const Navbar = props => {
   const [loginPopupState, setLoginPopupState] = React.useState(false);
   const [registerPopupState, setRegisterPopupState] = React.useState(false);
   const [addShowPopupState, setAddShowPopupState] = React.useState(false);
+
+  React.useEffect(() => {
+    setLoginPopupState(false);
+    setRegisterPopupState(false);
+  }, [isUserLoggedIn]);
+
+  const handleLogout = () => {
+    logoutUser();
+  };
 
   const handleOpenLoginPopup = () => {
     setLoginPopupState(true);
@@ -60,7 +74,7 @@ const Navbar = props => {
   };
 
   const handleOpenAddShowPopup = () => {
-    if (!isUserLoggedIn) {
+    if (isUserLoggedIn) {
       setAddShowPopupState(true);
     } else {
       requestToShowToast(
@@ -72,7 +86,7 @@ const Navbar = props => {
   };
 
   const handleCloseAddShowPopup = () => {
-    if (!isUserLoggedIn) {
+    if (isUserLoggedIn) {
       setAddShowPopupState(false);
     } else {
       setLoginPopupState(false);
@@ -95,7 +109,7 @@ const Navbar = props => {
               </Grid>
               <Grid item>
                 <Grid container justify="space-between" alignItems="center">
-                  <Grid item xs={8}>
+                  <Grid item xs>
                     {isMobileView ? (
                       <IconButton onClick={handleOpenAddShowPopup}>
                         <LibraryAddRoundedIcon color="primary" />
@@ -113,8 +127,19 @@ const Navbar = props => {
                       </Grid>
                     )}
                   </Grid>
-                  <Grid item xs={4}>
-                    {isMobileView ? (
+                  <Grid item xs>
+                    {isUserLoggedIn ? (
+                      <Grid container justify="center" alignItems="center">
+                        <Button
+                          color="primary"
+                          size="large"
+                          startIcon={<ExitToAppRoundedIcon />}
+                          onClick={handleLogout}
+                        >
+                          Logout ({username})
+                        </Button>
+                      </Grid>
+                    ) : isMobileView ? (
                       <IconButton onClick={handleOpenLoginPopup}>
                         <PersonAddRoundedIcon color="primary" />
                       </IconButton>
@@ -156,6 +181,7 @@ const Navbar = props => {
             </Grid>
             <Grid item xs={12}>
               <Login
+                onLoginSubmit={onLoginSubmit}
                 handleOpenRegisterPopup={handleOpenRegisterPopup}
                 handleCloseLoginPopup={handleCloseLoginPopup}
               />
@@ -182,6 +208,7 @@ const Navbar = props => {
             </Grid>
             <Grid item xs={12}>
               <Register
+                onRegisterSubmit={onRegisterSubmit}
                 handleOpenLoginPopup={handleOpenLoginPopup}
                 handleCloseRegisterPopup={handleCloseRegisterPopup}
               />

@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { all, put, takeLatest } from '@redux-saga/core/effects';
 
-import { loadingAction, toastAction } from '../actions';
+import { loadingAction, toastAction, userAction } from '../actions';
 
 import { actions, urls, utils } from '../constants';
 
@@ -18,12 +18,7 @@ function* loginSubmitWorker({ payload }) {
     handleError(axios);
     const requestURL = urls.LOGIN_URL;
 
-    const { username, password } = payload;
-
-    const body = {
-      username,
-      password,
-    };
+    const body = payload;
 
     const headers = {
       'Content-Type': 'application/json',
@@ -31,10 +26,13 @@ function* loginSubmitWorker({ payload }) {
 
     const response = yield axios.post(requestURL, body, { headers });
 
+    console.log('RESPONSE: ', response);
+
     yield put(loadingAction.stopLoginLoading());
 
     if (response && response.status === 200) {
       const { data } = response;
+
       const { message } = data;
       const { user } = data.data;
       updateUserLoginInfo(user);
@@ -43,7 +41,7 @@ function* loginSubmitWorker({ payload }) {
         toastAction.requestToShowToast(utils.MESSAGE_VARIANTS.SUCCESS, message)
       );
 
-      // yield put(userAction.updateBasicUserInfo(user));
+      yield put(userAction.updateUserData(user));
     }
   } catch (error) {
     yield put(loadingAction.stopLoginLoading());

@@ -25,7 +25,7 @@ export const checkIfUserIsLoggedIn = () => {
     const userInfo = {};
     userInfo.isLoggedIn = true;
     userInfo.expireAt = +localStorage.getItem(USER.EXPIRE_AT);
-    userInfo._id = +localStorage.getItem(USER.ID);
+    userInfo._id = localStorage.getItem(USER.ID);
     userInfo.token = localStorage.getItem(USER.TOKEN);
     userInfo.username = localStorage.getItem(USER.USERNAME);
 
