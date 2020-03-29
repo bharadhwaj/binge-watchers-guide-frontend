@@ -21,9 +21,15 @@ const FilterArea = props => {
 
   const [allFilterValues, setFilterValues] = React.useState([]);
 
-  const [types, setTypes] = React.useState(props.types || []);
-  const [languages, setLanguages] = React.useState(props.languages || []);
-  const [genres, setGenres] = React.useState(props.genres || []);
+  const [types, setTypes] = React.useState([]);
+  const [languages, setLanguages] = React.useState([]);
+  const [genres, setGenres] = React.useState([]);
+
+  React.useEffect(() => {
+    setTypes(props.types);
+    setLanguages(props.languages);
+    setGenres(props.genres);
+  }, [props.types, props.languages, props.genres]);
 
   const [typeExpanded, setTypeExpansion] = React.useState(true);
   const [languageExpanded, setLanguageExpansion] = React.useState(false);

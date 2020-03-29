@@ -6,6 +6,11 @@ import { actions } from '../constants';
 
 import { toastSelector } from '../selectors';
 
+/* -----------------------------------------
+ *                 WORKERS
+ * -----------------------------------------
+ */
+
 function* showToastWorker() {
   const toastVariant = yield select(toastSelector.getToastVariant());
   const toastMessage = yield select(toastSelector.getToastMessage());
@@ -14,6 +19,11 @@ function* showToastWorker() {
   yield delay(100);
   yield put(toastAction.showToast(toastVariant, toastMessage));
 }
+
+/* -----------------------------------------
+ *                 WATCHERS
+ * -----------------------------------------
+ */
 
 function* showToastWatcher() {
   yield takeEvery(actions.TOAST.REQUEST_TO_SHOW_TOAST, showToastWorker);

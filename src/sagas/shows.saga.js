@@ -4,6 +4,11 @@ import { showsAction } from '../actions';
 
 import { actions } from '../constants';
 
+/* -----------------------------------------
+ *                 WORKERS
+ * -----------------------------------------
+ */
+
 function* getAllShowsWorker() {
   const shows = [
     {
@@ -85,6 +90,11 @@ function* getAllShowsWorker() {
 
   yield put(showsAction.addShows(shows));
 }
+
+/* -----------------------------------------
+ *                 WATCHERS
+ * -----------------------------------------
+ */
 
 function* getAllShowsWatcher() {
   yield takeEvery(actions.SHOWS.GET_ALL_SHOWS, getAllShowsWorker);

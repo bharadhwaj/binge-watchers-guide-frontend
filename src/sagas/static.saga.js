@@ -1,122 +1,62 @@
+import axios from 'axios';
 import { all, put, takeEvery } from '@redux-saga/core/effects';
 
 import { staticAction } from '../actions';
 
-import { actions, utils } from '../constants';
+import { actions, urls, utils } from '../constants';
+
+import handleError from '../utils/errorHandler';
+
+/* -----------------------------------------
+ *                 WORKERS
+ * -----------------------------------------
+ */
 
 function* getAllStaticsWorker() {
-  const types = [
-    {
-      _id: 1,
-      name: 'Movies',
-      type: utils.FILTER_TYPES.TYPE,
-      isChecked: false,
-    },
-    {
-      _id: 2,
-      name: 'Series',
-      type: utils.FILTER_TYPES.TYPE,
-      isChecked: false,
-    },
-    {
-      _id: 3,
-      name: 'Documentary',
-      type: utils.FILTER_TYPES.TYPE,
-      isChecked: false,
-    },
-  ];
+  try {
+    handleError(axios);
 
-  const languages = [
-    {
-      _id: 1,
-      name: 'Malayalam',
-      type: utils.FILTER_TYPES.LANGUAGE,
-      isChecked: false,
-    },
-    {
-      _id: 2,
-      name: 'Tamil',
-      type: utils.FILTER_TYPES.LANGUAGE,
-      isChecked: false,
-    },
-    {
-      _id: 3,
-      name: 'Hindi',
-      type: utils.FILTER_TYPES.LANGUAGE,
-      isChecked: false,
-    },
-    {
-      _id: 4,
-      name: 'English',
-      type: utils.FILTER_TYPES.LANGUAGE,
-      isChecked: false,
-    },
-    {
-      _id: 5,
-      name: 'Others',
-      type: utils.FILTER_TYPES.LANGUAGE,
-      isChecked: false,
-    },
-  ];
+    const requestURL = urls.GET_STATICS;
 
-  const genres = [
-    {
-      _id: 1,
-      name: 'Drama',
-      type: utils.FILTER_TYPES.GENRE,
-      isChecked: false,
-    },
-    {
-      _id: 2,
-      name: 'Horror',
-      type: utils.FILTER_TYPES.GENRE,
-      isChecked: false,
-    },
-    {
-      _id: 3,
-      name: 'Sci-fi',
-      type: utils.FILTER_TYPES.GENRE,
-      isChecked: false,
-    },
-    {
-      _id: 4,
-      name: 'Thriller',
-      type: utils.FILTER_TYPES.GENRE,
-      isChecked: false,
-    },
-    {
-      _id: 5,
-      name: 'Comedy',
-      type: utils.FILTER_TYPES.GENRE,
-      isChecked: false,
-    },
-    {
-      _id: 6,
-      name: 'Romantic',
-      type: utils.FILTER_TYPES.GENRE,
-      isChecked: false,
-    },
-  ];
+    const headers = {
+      'Content-Type': 'application/json',
+    };
 
-  // const updatedTypes = types.map(typeObj => ({
-  //   ...typeObj,
-  //   type: utils.FILTER_TYPES.TYPE,
-  // }));
+    const response = yield axios.get(requestURL, { headers });
 
-  // const updatedLanguages = languages.map(languageObj => ({
-  //   ...languageObj,
-  //   type: utils.FILTER_TYPES.LANGUAGE,
-  // }));
+    if (response && response.status === 200) {
+      const { data } = response;
+      let { types, languages, genres } = data.data;
 
-  // const updatedGenres = genres.map(genreObj => ({
-  //   ...genreObj,
-  //   type: utils.FILTER_TYPES.GENRE,
-  // }));
+      types = types.map(typeObj => ({
+        ...typeObj,
+        type: utils.FILTER_TYPES.TYPE,
+        isChecked: false,
+      }));
 
-  yield put(staticAction.updateTypeData(types));
-  yield put(staticAction.updateLanguageData(languages));
-  yield put(staticAction.updateGenreData(genres));
+      languages = languages.map(languageObj => ({
+        ...languageObj,
+        type: utils.FILTER_TYPES.LANGUAGE,
+        isChecked: false,
+      }));
+
+      genres = genres.map(genreObj => ({
+        ...genreObj,
+        type: utils.FILTER_TYPES.GENRE,
+        isChecked: false,
+      }));
+
+      yield put(staticAction.updateTypeData(types));
+      yield put(staticAction.updateLanguageData(languages));
+      yield put(staticAction.updateGenreData(genres));
+    }
+  } catch (error) {}
 }
+
+/* -----------------------------------------
+ *                 WATCHERS
+ * -----------------------------------------
+ */
 
 function* getAllStaticsWatcher() {
   yield takeEvery(actions.STATIC.GET_ALL_STATICS, getAllStaticsWorker);
