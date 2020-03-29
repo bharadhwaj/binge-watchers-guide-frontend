@@ -8,6 +8,7 @@ const notLoggedInState = {
   _id: null,
   username: null,
   token: null,
+  isValidUsername: true,
 };
 
 const initialState = isLoggedIn ? userInfo : notLoggedInState;
@@ -21,6 +22,12 @@ export default function userReducer(state = initialState, action) {
         _id: action.payload.userInfo._id,
         username: action.payload.userInfo.username,
         token: action.payload.userInfo.token,
+      };
+
+    case USER.SET_USERNAME_STATUS:
+      return {
+        ...state,
+        isValidUsername: action.payload.status,
       };
 
     case USER.RESET_USER_DATA:

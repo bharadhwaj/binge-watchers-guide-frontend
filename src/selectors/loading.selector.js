@@ -12,3 +12,9 @@ export const getLoginLoadingState = () =>
     selectLoadingState,
     loadingState => loadingState.isLoginSubmitLoading
   );
+
+export const getCheckUsernameLoadingState = () =>
+  createSelector(
+    selectLoadingState,
+    loadingState => loadingState.isCheckUsernameLoading
+  );

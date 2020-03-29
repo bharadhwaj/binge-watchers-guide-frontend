@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { all, put, takeLatest } from '@redux-saga/core/effects';
+import { all, debounce, put, takeLatest } from '@redux-saga/core/effects';
 
 import { loadingAction, toastAction, userAction } from '../actions';
 
@@ -30,9 +30,9 @@ function* checkUsernameWorker({ payload }) {
     yield put(loadingAction.stopCheckUsernameLoading());
 
     if (response && response.status === 200) {
-      // const { data } = response;
-      // const { message } = data;
-      // const { user } = data.data;
+      const { data } = response;
+      const { success } = data;
+      yield put(userAction.setUsernameStatus(success));
     }
   } catch (error) {
     yield put(loadingAction.stopCheckUsernameLoading());
@@ -78,7 +78,7 @@ function* registerSubmitWorker({ payload }) {
  */
 
 function* checkUsernameWatcher() {
-  yield takeLatest(actions.REGISTER.CHECK_USERNAME, checkUsernameWorker);
+  yield debounce(1000, actions.REGISTER.CHECK_USERNAME, checkUsernameWorker);
 }
 
 function* registerSubmitWatcher() {

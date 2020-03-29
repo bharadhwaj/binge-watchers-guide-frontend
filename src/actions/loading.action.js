@@ -1,11 +1,11 @@
 import { LOADING } from '../constants/actions';
 
 export function startCheckUsernameLoading() {
-  return { type: LOADING.START_REGISTER_LOADING };
+  return { type: LOADING.START_CHECK_USERNAME_LOADING };
 }
 
 export function stopCheckUsernameLoading() {
-  return { type: LOADING.STOP_REGISTER_LOADING };
+  return { type: LOADING.STOP_CHECK_USERNAME_LOADING };
 }
 
 export function startRegisterLoading() {

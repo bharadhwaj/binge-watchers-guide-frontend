@@ -19,3 +19,6 @@ export const getCurrentUserId = () =>
 
 export const getCurrentUsername = () =>
   createSelector(selectUserState, userState => userState.username);
+
+export const isValidUsername = () =>
+  createSelector(selectUserState, userState => userState.isValidUsername);

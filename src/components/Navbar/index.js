@@ -30,10 +30,13 @@ const Navbar = props => {
   const {
     redirectToPage,
     requestToShowToast,
+    checkForUsername,
     onRegisterSubmit,
     onLoginSubmit,
     logoutUser,
+    isCheckUsernameLoading,
     isUserLoggedIn,
+    isValidUsername,
     username,
     types,
     languages,
@@ -208,6 +211,9 @@ const Navbar = props => {
             </Grid>
             <Grid item xs={12}>
               <Register
+                checkForUsername={checkForUsername}
+                isCheckUsernameLoading={isCheckUsernameLoading}
+                isValidUsername={isValidUsername}
                 onRegisterSubmit={onRegisterSubmit}
                 handleOpenLoginPopup={handleOpenLoginPopup}
                 handleCloseRegisterPopup={handleCloseRegisterPopup}

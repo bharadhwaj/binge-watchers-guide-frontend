@@ -26,8 +26,6 @@ function* loginSubmitWorker({ payload }) {
 
     const response = yield axios.post(requestURL, body, { headers });
 
-    console.log('RESPONSE: ', response);
-
     yield put(loadingAction.stopLoginLoading());
 
     if (response && response.status === 200) {

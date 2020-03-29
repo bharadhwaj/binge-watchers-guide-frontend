@@ -32,6 +32,7 @@ export const LOGIN = {
 // ------------------ USER ACTIONS ------------------ //
 export const USER = {
   UPDATE_USER_DATA: 'bwg/User/UPDATE_USER_DATA',
+  SET_USERNAME_STATUS: 'bwg/User/SET_USERNAME_STATUS',
   RESET_USER_DATA: 'bwg/User/RESET_USER_DATA',
 };
 

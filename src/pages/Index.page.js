@@ -20,7 +20,12 @@ import {
   toastAction,
   userAction,
 } from '../actions';
-import { showsSelector, staticSelector, userSelector } from '../selectors';
+import {
+  loadingSelector,
+  showsSelector,
+  staticSelector,
+  userSelector,
+} from '../selectors';
 
 import { logoutUser } from '../utils/users';
 
@@ -36,10 +41,13 @@ class IndexPage extends Component {
     const {
       redirectToPage,
       requestToShowToast,
+      checkForUsername,
       onRegisterSubmit,
       onLoginSubmit,
       logoutUser,
+      isCheckUsernameLoading,
       isUserLoggedIn,
+      isValidUsername,
       username,
       types,
       languages,
@@ -53,10 +61,13 @@ class IndexPage extends Component {
           <Navbar
             redirectToPage={redirectToPage}
             requestToShowToast={requestToShowToast}
+            checkForUsername={checkForUsername}
             onRegisterSubmit={onRegisterSubmit}
             onLoginSubmit={onLoginSubmit}
             logoutUser={logoutUser}
+            isCheckUsernameLoading={isCheckUsernameLoading}
             isUserLoggedIn={isUserLoggedIn}
+            isValidUsername={isValidUsername}
             username={username}
             types={types}
             languages={languages}
@@ -106,9 +117,9 @@ const mapDispatchToProps = dispatch => ({
   requestToShowToast: (variant, message) => {
     return dispatch(toastAction.requestToShowToast(variant, message));
   },
-  checkUsername: username => {
-    dispatch(loadingAction.startRegisterLoading());
-    return dispatch(registerAction.registerUser(username));
+  checkForUsername: username => {
+    dispatch(loadingAction.startCheckUsernameLoading());
+    return dispatch(registerAction.checkUsername(username));
   },
   onRegisterSubmit: (username, password) => {
     dispatch(loadingAction.startRegisterLoading());
@@ -125,7 +136,9 @@ const mapDispatchToProps = dispatch => ({
 });
 
 const mapStateToProps = createStructuredSelector({
+  isCheckUsernameLoading: loadingSelector.getCheckUsernameLoadingState(),
   isUserLoggedIn: userSelector.isUserLoggedIn(),
+  isValidUsername: userSelector.isValidUsername(),
   username: userSelector.getCurrentUsername(),
   types: staticSelector.getAllTypes(),
   languages: staticSelector.getAllLanguages(),

@@ -22,6 +22,9 @@ const Register = props => {
   const {
     handleOpenLoginPopup,
     handleCloseRegisterPopup,
+    checkForUsername,
+    isCheckUsernameLoading,
+    isValidUsername,
     onRegisterSubmit,
     isRegisterSubmitLoading,
   } = props;
@@ -33,23 +36,47 @@ const Register = props => {
   const [password, setPasswordValue] = React.useState('');
   const [passwordVisible, setPasswordVisibility] = React.useState(false);
 
+  React.useEffect(() => {
+    if (username !== '' && !isValidUsername) {
+      setUsernameError('This username is already taken.');
+    } else {
+      setUsernameError(false);
+    }
+  }, [isValidUsername, username]);
+
   const handleUsernameTyping = event => {
-    if (
+    if (!isValidUsername) {
+      setUsernameError('This username is already taken.');
+    } else if (
       regex.USERNAME_TYPING.test(event.target.value) ||
       event.target.value === ''
     ) {
       setUsernameError(false);
     } else {
-      setUsernameError(true);
+      setUsernameError('Invalid Username format');
     }
+
     setUsernameValue(event.target.value);
+
+    if (event.target.value !== '') {
+      checkForUsername(event.target.value);
+    }
   };
 
   const checkUsername = event => {
-    if (regex.USERNAME.test(event.target.value) || event.target.value === '') {
+    if (!isValidUsername) {
+      setUsernameError('This username is already taken.');
+    } else if (
+      regex.USERNAME.test(event.target.value) ||
+      event.target.value === ''
+    ) {
       setUsernameError(false);
     } else {
-      setUsernameError(true);
+      setUsernameError('Invalid Username format');
+    }
+
+    if (event.target.value !== '') {
+      checkForUsername(event.target.value);
     }
   };
 
@@ -94,8 +121,8 @@ const Register = props => {
                   value={username}
                   onChange={handleUsernameTyping}
                   onBlur={checkUsername}
-                  error={usernameError}
-                  helperText={usernameError && 'Invalid username format.'}
+                  error={!!usernameError}
+                  helperText={!!usernameError && usernameError}
                   InputLabelProps={{ shrink: true }}
                   autoFocus
                   fullWidth
@@ -145,7 +172,12 @@ const Register = props => {
                   variant="outlined"
                   color="primary"
                   size="large"
-                  disabled={usernameError || username === '' || password === ''}
+                  disabled={
+                    isCheckUsernameLoading ||
+                    !!usernameError ||
+                    username === '' ||
+                    password === ''
+                  }
                   onClick={handleRegisterSubmit}
                   fullWidth
                 >
