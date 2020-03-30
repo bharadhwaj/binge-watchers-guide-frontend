@@ -103,7 +103,6 @@ const AddShow = props => {
               <Grid item xs={12} sm={10}>
                 <TextField
                   id="name"
-                  variant="outlined"
                   label="Name"
                   placeholder="The Shawshank Redemption"
                   value={name}
@@ -205,6 +204,7 @@ const AddShow = props => {
                           {selected.map(value => (
                             <Chip
                               key={value}
+                              variant="outlined"
                               label={genres[value].name}
                               className={classes.chip}
                             />

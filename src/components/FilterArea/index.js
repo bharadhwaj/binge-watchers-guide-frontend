@@ -60,17 +60,29 @@ const FilterArea = props => {
     }
 
     if (currentValue.type === utils.FILTER_TYPES.TYPE) {
-      const newTypes = { ...types };
-      delete newTypes[currentValue._id];
-      setTypes(newTypes);
+      setTypes({
+        ...types,
+        [currentValue._id]: {
+          ...currentValue,
+          isChecked: !currentValue.isChecked,
+        },
+      });
     } else if (currentValue.type === utils.FILTER_TYPES.LANGUAGE) {
-      const newLanguages = { ...languages };
-      delete newLanguages[currentValue._id];
-      setLanguages(newLanguages);
+      setLanguages({
+        ...languages,
+        [currentValue._id]: {
+          ...currentValue,
+          isChecked: !currentValue.isChecked,
+        },
+      });
     } else if (currentValue.type === utils.FILTER_TYPES.GENRE) {
-      const newGenres = { ...genres };
-      delete newGenres[currentValue._id];
-      setGenres(newGenres);
+      setGenres({
+        ...genres,
+        [currentValue._id]: {
+          ...currentValue,
+          isChecked: !currentValue.isChecked,
+        },
+      });
     }
   };
 
@@ -103,10 +115,13 @@ const FilterArea = props => {
   };
 
   const handleResetFilter = () => {
+    const { getAllShows, userId } = props;
+
     setFilterValues([]);
     setTypes(props.types || {});
     setLanguages(props.languages || {});
     setGenres(props.genres || {});
+    getAllShows({ userId });
   };
 
   const applyFilter = () => {
@@ -126,8 +141,6 @@ const FilterArea = props => {
       }
     }
 
-    console.log('ON SUBMIT: ', typesList, languagesList, genresList, userId);
-
     getAllShows({
       userId,
       types: typesList,
@@ -140,6 +153,7 @@ const FilterArea = props => {
     <Chip
       className={classes.chips}
       key={value._id + ' ' + value.type}
+      variant="outlined"
       color="primary"
       label={value.name}
       onDelete={handleOnDeleteValue(value)}
@@ -177,7 +191,7 @@ const FilterArea = props => {
             <Hidden smDown>
               <Grid item md={5}>
                 <Button
-                  variant="outlined"
+                  variant="contained"
                   color="primary"
                   fullWidth
                   disabled={allFilterValues && allFilterValues.length < 1}
@@ -192,8 +206,8 @@ const FilterArea = props => {
               <Grid container justify="center">
                 <Grid item xs={6}>
                   <Button
-                    variant="outlined"
                     color="primary"
+                    variant="contained"
                     fullWidth
                     disabled={allFilterValues && allFilterValues.length < 1}
                     onClick={applyFilter}
