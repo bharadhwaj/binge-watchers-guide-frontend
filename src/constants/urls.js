@@ -8,3 +8,6 @@ export const GET_STATICS = `${BASE_URL}/shows/statics`;
 
 export const GET_ALL_SHOWS = `${BASE_URL}/shows`;
 export const ADD_SHOWS = `${BASE_URL}/users/<USER_ID>/shows`;
+
+export const UPVOTE_SHOW = `${BASE_URL}/users/<USER_ID>/shows/<SHOW_ID>/upvote`;
+export const DOWNVOTE_SHOW = `${BASE_URL}/users/<USER_ID>/shows/<SHOW_ID>/downvote`;

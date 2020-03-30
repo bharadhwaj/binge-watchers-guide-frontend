@@ -12,18 +12,52 @@ import { makeStyles } from '@material-ui/core/styles';
 
 import style from './style';
 
+import { utils } from '../../constants';
+
 const VoteArea = props => {
   const classes = makeStyles(style)();
 
-  const { upvotes, downvotes, haveUpvoted, haveDownvoted } = props;
+  const {
+    isUserLoggedIn,
+    requestToShowToast,
+    onUpvoteShow,
+    onDownvoteShow,
+    _id,
+    upvotes,
+    downvotes,
+    haveUpvoted,
+    haveDownvoted,
+  } = props;
 
   const votes = upvotes - downvotes;
+
+  const onUpvote = () => {
+    if (isUserLoggedIn) {
+      onUpvoteShow(_id, !haveUpvoted);
+    } else {
+      requestToShowToast(
+        utils.MESSAGE_VARIANTS.INFO,
+        'You have to login to vote.'
+      );
+    }
+  };
+
+  const onDownvote = () => {
+    if (isUserLoggedIn) {
+      onDownvoteShow(_id, !haveDownvoted);
+    } else {
+      requestToShowToast(
+        utils.MESSAGE_VARIANTS.INFO,
+        'You have to login to vote.'
+      );
+    }
+  };
 
   return (
     <>
       <Grid className={classes.element} item xs={12}>
         <Grid container justify="flex-end">
-          <IconButton>
+          <IconButton onClick={onUpvote}>
             <ThumbUpRoundedIcon
               fontSize="large"
               className={clsx(classes.icons, haveUpvoted && classes.upvoted)}
@@ -42,7 +76,7 @@ const VoteArea = props => {
 
       <Grid className={classes.element} item xs={12}>
         <Grid container justify="flex-end">
-          <IconButton>
+          <IconButton onClick={onDownvote}>
             <ThumbDownRoundedIcon
               fontSize="large"
               className={clsx(

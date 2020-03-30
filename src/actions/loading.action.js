@@ -47,3 +47,11 @@ export function startAddShowLoading() {
 export function stopAddShowLoading() {
   return { type: LOADING.STOP_ADD_SHOW_LOADING };
 }
+
+export function startVoteShowLoading() {
+  return { type: LOADING.START_VOTE_SHOW_LOADING };
+}
+
+export function stopVoteShowLoading() {
+  return { type: LOADING.STOP_VOTE_SHOW_LOADING };
+}

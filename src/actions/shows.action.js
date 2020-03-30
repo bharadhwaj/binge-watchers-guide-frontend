@@ -27,3 +27,11 @@ export function updateShows(shows) {
 export function resetVotes() {
   return { type: SHOWS.RESET_VOTES };
 }
+
+export function upvoteShow(showId, isUpvote) {
+  return { type: SHOWS.UPVOTE_SHOW, payload: { showId, isUpvote } };
+}
+
+export function downvoteShow(showId, isDownvote) {
+  return { type: SHOWS.DOWNVOTE_SHOW, payload: { showId, isDownvote } };
+}

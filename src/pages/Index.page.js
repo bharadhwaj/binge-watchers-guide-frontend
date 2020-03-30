@@ -47,6 +47,8 @@ class IndexPage extends Component {
       onRegisterSubmit,
       onLoginSubmit,
       onAddShowSubmit,
+      onUpvoteShow,
+      onDownvoteShow,
       logoutUser,
       isGetStaticsLoading,
       isCheckUsernameLoading,
@@ -103,6 +105,10 @@ class IndexPage extends Component {
                 {shows.map(show => (
                   <MovieDescription
                     key={show._id}
+                    isUserLoggedIn={isUserLoggedIn}
+                    requestToShowToast={requestToShowToast}
+                    onUpvoteShow={onUpvoteShow}
+                    onDownvoteShow={onDownvoteShow}
                     {...show}
                     type={types && types[show.type] && types[show.type].name}
                     language={
@@ -170,6 +176,14 @@ const mapDispatchToProps = dispatch => ({
     logoutUser();
     dispatch(showsAction.resetVotes());
     return dispatch(userAction.resetUserData());
+  },
+  onUpvoteShow: (showId, isUpvote) => {
+    dispatch(loadingAction.startVoteShowLoading());
+    return dispatch(showsAction.upvoteShow(showId, isUpvote));
+  },
+  onDownvoteShow: (showId, isDownvote) => {
+    dispatch(loadingAction.startVoteShowLoading());
+    return dispatch(showsAction.downvoteShow(showId, isDownvote));
   },
 });
 

@@ -12,6 +12,8 @@ export const LOADING = {
   STOP_LOGIN_LOADING: 'bwg/Loading/STOP_LOGIN_LOADING',
   START_ADD_SHOW_LOADING: 'bwg/Loading/START_ADD_SHOW_LOADING',
   STOP_ADD_SHOW_LOADING: 'bwg/Loading/STOP_ADD_SHOW_LOADING',
+  START_VOTE_SHOW_LOADING: 'bwg/Loading/START_VOTE_SHOW_LOADING',
+  STOP_VOTE_SHOW_LOADING: 'bwg/Loading/STOP_VOTE_SHOW_LOADING',
 };
 
 // ------------------ TOAST ACTIONS ------------------ //
@@ -55,4 +57,6 @@ export const SHOWS = {
   APPEND_SHOWS: 'bwg/Shows/APPEND_SHOWS',
   UPDATE_SHOWS: 'bwg/Shows/UPDATE_SHOWS',
   RESET_VOTES: 'bwg/Shows/RESET_VOTES',
+  UPVOTE_SHOW: 'bwg/Shows/UPVOTE_SHOW',
+  DOWNVOTE_SHOW: 'bwg/Shows/DOWNVOTE_SHOW',
 };

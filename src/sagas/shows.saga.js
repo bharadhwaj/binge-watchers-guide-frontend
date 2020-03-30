@@ -47,8 +47,6 @@ function* getAllShowsWorker({ payload }) {
 
     const response = yield axios.get(requestURL, { headers, params });
 
-    console.log('ADD SHOW RESPONSE: ', response);
-
     yield put(loadingAction.stopGetAllShowsLoading());
 
     if (response && response.status === 200) {
@@ -81,8 +79,6 @@ function* addShowWorker({ payload }) {
 
     const response = yield axios.post(requestURL, body, { headers });
 
-    console.log('ADD SHOW RESPONSE: ', response);
-
     yield put(loadingAction.stopAddShowLoading());
 
     if (response && response.status === 201) {
@@ -101,6 +97,88 @@ function* addShowWorker({ payload }) {
   }
 }
 
+function* upvoteShowWorker({ payload }) {
+  try {
+    handleError(axios);
+    const userId = yield select(userSelector.getCurrentUserId());
+
+    const { showId, isUpvote } = payload;
+
+    const requestURL = urls.UPVOTE_SHOW.replace(/<USER_ID>/, userId).replace(
+      /<SHOW_ID>/,
+      showId
+    );
+
+    const body = { isUpvote };
+
+    const headers = {
+      'Content-Type': 'application/json',
+    };
+
+    const response = yield axios.post(requestURL, body, { headers });
+
+    console.log('UPVOTE SHOW RESPONSE: ', response);
+
+    yield put(loadingAction.stopVoteShowLoading());
+
+    if (response && response.status === 200) {
+      const { data } = response;
+      const { message } = data;
+      const { show } = data.data;
+
+      yield put(showsAction.appendShows([{ ...show, haveUpvoted: isUpvote }]));
+
+      yield put(
+        toastAction.requestToShowToast(utils.MESSAGE_VARIANTS.SUCCESS, message)
+      );
+    }
+  } catch (error) {
+    yield put(loadingAction.stopVoteShowLoading());
+  }
+}
+
+function* downvoteShowWorker({ payload }) {
+  try {
+    handleError(axios);
+    const userId = yield select(userSelector.getCurrentUserId());
+
+    const { showId, isDownvote } = payload;
+
+    const requestURL = urls.DOWNVOTE_SHOW.replace(/<USER_ID>/, userId).replace(
+      /<SHOW_ID>/,
+      showId
+    );
+
+    const body = { isDownvote };
+
+    const headers = {
+      'Content-Type': 'application/json',
+    };
+
+    const response = yield axios.post(requestURL, body, { headers });
+
+    console.log('DOWNVOTE SHOW RESPONSE: ', response);
+
+    yield put(loadingAction.stopVoteShowLoading());
+
+    if (response && response.status === 200) {
+      const { data } = response;
+      const { message } = data;
+      const { show } = data.data;
+
+      yield put(
+        showsAction.appendShows([{ ...show, haveDownvoted: isDownvote }])
+      );
+
+      yield put(
+        toastAction.requestToShowToast(utils.MESSAGE_VARIANTS.SUCCESS, message)
+      );
+    }
+  } catch (error) {
+    yield put(loadingAction.stopVoteShowLoading());
+  }
+}
+
 /* -----------------------------------------
  *                 WATCHERS
  * -----------------------------------------
@@ -114,6 +192,19 @@ function* addShowWatcher() {
   yield takeEvery(actions.SHOWS.ADD_SHOW, addShowWorker);
 }
 
+function* upvoteShowWatcher() {
+  yield takeEvery(actions.SHOWS.UPVOTE_SHOW, upvoteShowWorker);
+}
+
+function* downvoteShowWatcher() {
+  yield takeEvery(actions.SHOWS.DOWNVOTE_SHOW, downvoteShowWorker);
+}
+
 export default function* showsSaga() {
-  yield all([getAllShowsWatcher(), addShowWatcher()]);
+  yield all([
+    getAllShowsWatcher(),
+    addShowWatcher(),
+    upvoteShowWatcher(),
+    downvoteShowWatcher(),
+  ]);
 }
