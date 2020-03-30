@@ -28,7 +28,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "gh-deploy": "yarn build && gh-pages -d build"
+    "gh-deploy": "yarn build && echo \"bwg.bharadhwaj.xyz\" > ./build/CNAME && gh-pages -d build"
   },
   "eslintConfig": {
     "extends": "react-app"
