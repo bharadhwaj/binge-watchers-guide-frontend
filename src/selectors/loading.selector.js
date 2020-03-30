@@ -31,3 +31,9 @@ export const getCheckUsernameLoadingState = () =>
     selectLoadingState,
     loadingState => loadingState.isCheckUsernameLoading
   );
+
+export const getAddShowSubmitLoadingState = () =>
+  createSelector(
+    selectLoadingState,
+    loadingState => loadingState.isAddShowSubmitLoading
+  );

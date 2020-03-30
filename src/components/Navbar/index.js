@@ -35,7 +35,9 @@ const Navbar = props => {
     onLoginSubmit,
     onAddShowSubmit,
     logoutUser,
+    isSubmitRegisterLoading,
     isSubmitLoginLoading,
+    isAddShowSubmitLoading,
     isCheckUsernameLoading,
     isUserLoggedIn,
     isValidUsername,
@@ -58,6 +60,12 @@ const Navbar = props => {
     setLoginPopupState(false);
     setRegisterPopupState(false);
   }, [isUserLoggedIn, setLoginPopupState]);
+
+  React.useEffect(() => {
+    if (!isAddShowSubmitLoading) {
+      setAddShowPopupState(false);
+    }
+  }, [isAddShowSubmitLoading]);
 
   const handleLogout = () => {
     logoutUser();
@@ -216,6 +224,7 @@ const Navbar = props => {
             <Grid item xs={12}>
               <Register
                 checkForUsername={checkForUsername}
+                isSubmitRegisterLoading={isSubmitRegisterLoading}
                 isCheckUsernameLoading={isCheckUsernameLoading}
                 isValidUsername={isValidUsername}
                 onRegisterSubmit={onRegisterSubmit}
@@ -245,6 +254,7 @@ const Navbar = props => {
             </Grid>
             <Grid item xs={12}>
               <AddShow
+                isAddShowSubmitLoading={isAddShowSubmitLoading}
                 onAddShowSubmit={onAddShowSubmit}
                 types={types}
                 languages={languages}

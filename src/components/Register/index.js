@@ -24,9 +24,9 @@ const Register = props => {
     handleCloseRegisterPopup,
     checkForUsername,
     isCheckUsernameLoading,
+    isSubmitRegisterLoading,
     isValidUsername,
     onRegisterSubmit,
-    isRegisterSubmitLoading,
   } = props;
 
   const classes = makeStyles(style)();
@@ -181,7 +181,7 @@ const Register = props => {
                   onClick={handleRegisterSubmit}
                   fullWidth
                 >
-                  {!isRegisterSubmitLoading ? 'Register' : <CircularProgress />}
+                  {!isSubmitRegisterLoading ? 'Register' : <CircularProgress />}
                 </Button>
               </Grid>
             </Grid>

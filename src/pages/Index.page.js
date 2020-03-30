@@ -65,6 +65,8 @@ class IndexPage extends Component {
       isGetStaticsLoading,
       isCheckUsernameLoading,
       isSubmitLoginLoading,
+      isSubmitRegisterLoading,
+      isAddShowSubmitLoading,
       isUserLoggedIn,
       isValidUsername,
       userId,
@@ -95,6 +97,8 @@ class IndexPage extends Component {
                 onAddShowSubmit={onAddShowSubmit}
                 logoutUser={logoutUser}
                 isSubmitLoginLoading={isSubmitLoginLoading}
+                isSubmitRegisterLoading={isSubmitRegisterLoading}
+                isAddShowSubmitLoading={isAddShowSubmitLoading}
                 isCheckUsernameLoading={isCheckUsernameLoading}
                 isUserLoggedIn={isUserLoggedIn}
                 isValidUsername={isValidUsername}
@@ -210,6 +214,8 @@ const mapStateToProps = createStructuredSelector({
   isGetAllShowsLoading: loadingSelector.getAllShowsLoadingState(),
   isCheckUsernameLoading: loadingSelector.getCheckUsernameLoadingState(),
   isSubmitLoginLoading: loadingSelector.getLoginLoadingState(),
+  isSubmitRegisterLoading: loadingSelector.getRegisterLoadingState(),
+  isAddShowSubmitLoading: loadingSelector.getAddShowSubmitLoadingState(),
   isUserLoggedIn: userSelector.isUserLoggedIn(),
   isValidUsername: userSelector.isValidUsername(),
   userId: userSelector.getCurrentUserId(),
