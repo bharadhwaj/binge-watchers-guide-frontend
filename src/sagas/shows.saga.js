@@ -24,12 +24,15 @@ function* getAllShowsWorker({ payload }) {
   try {
     handleError(axios);
 
+    const authToken = yield select(userSelector.getAuthToken());
+
     const { userId, types, languages, genres } = payload;
 
     const requestURL = urls.GET_ALL_SHOWS;
 
     const headers = {
       'Content-Type': 'application/json',
+      ...(authToken && { Authorization: authToken }),
     };
 
     const params = {
@@ -69,12 +72,15 @@ function* addShowWorker({ payload }) {
     handleError(axios);
     const userId = yield select(userSelector.getCurrentUserId());
 
+    const authToken = yield select(userSelector.getAuthToken());
+
     const requestURL = urls.ADD_SHOWS.replace(/<USER_ID>/, userId);
 
     const body = payload.show;
 
     const headers = {
       'Content-Type': 'application/json',
+      Authorization: authToken,
     };
 
     const response = yield axios.post(requestURL, body, { headers });
@@ -102,6 +108,8 @@ function* upvoteShowWorker({ payload }) {
     handleError(axios);
     const userId = yield select(userSelector.getCurrentUserId());
 
+    const authToken = yield select(userSelector.getAuthToken());
+
     const { showId, isUpvote } = payload;
 
     const requestURL = urls.UPVOTE_SHOW.replace(/<USER_ID>/, userId).replace(
@@ -113,6 +121,7 @@ function* upvoteShowWorker({ payload }) {
 
     const headers = {
       'Content-Type': 'application/json',
+      Authorization: authToken,
     };
 
     const response = yield axios.post(requestURL, body, { headers });
@@ -140,6 +149,8 @@ function* downvoteShowWorker({ payload }) {
     handleError(axios);
     const userId = yield select(userSelector.getCurrentUserId());
 
+    const authToken = yield select(userSelector.getAuthToken());
+
     const { showId, isDownvote } = payload;
 
     const requestURL = urls.DOWNVOTE_SHOW.replace(/<USER_ID>/, userId).replace(
@@ -151,6 +162,7 @@ function* downvoteShowWorker({ payload }) {
 
     const headers = {
       'Content-Type': 'application/json',
+      Authorization: authToken,
     };
 
     const response = yield axios.post(requestURL, body, { headers });
