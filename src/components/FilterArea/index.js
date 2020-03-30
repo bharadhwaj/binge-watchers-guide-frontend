@@ -21,9 +21,9 @@ const FilterArea = props => {
 
   const [allFilterValues, setFilterValues] = React.useState([]);
 
-  const [types, setTypes] = React.useState([]);
-  const [languages, setLanguages] = React.useState([]);
-  const [genres, setGenres] = React.useState([]);
+  const [types, setTypes] = React.useState({});
+  const [languages, setLanguages] = React.useState({});
+  const [genres, setGenres] = React.useState({});
 
   React.useEffect(() => {
     setTypes(props.types);
@@ -60,25 +60,16 @@ const FilterArea = props => {
     }
 
     if (currentValue.type === utils.FILTER_TYPES.TYPE) {
-      const newTypes = [...types].map(type =>
-        type._id === currentValue._id
-          ? { ...type, isChecked: !type.isChecked }
-          : type
-      );
+      const newTypes = { ...types };
+      delete newTypes[currentValue._id];
       setTypes(newTypes);
     } else if (currentValue.type === utils.FILTER_TYPES.LANGUAGE) {
-      const newLanguages = [...languages].map(language =>
-        language._id === currentValue._id
-          ? { ...language, isChecked: !language.isChecked }
-          : language
-      );
+      const newLanguages = { ...languages };
+      delete newLanguages[currentValue._id];
       setLanguages(newLanguages);
     } else if (currentValue.type === utils.FILTER_TYPES.GENRE) {
-      const newGenres = [...genres].map(genre =>
-        genre._id === currentValue._id
-          ? { ...genre, isChecked: !genre.isChecked }
-          : genre
-      );
+      const newGenres = { ...genres };
+      delete newGenres[currentValue._id];
       setGenres(newGenres);
     }
   };
@@ -91,30 +82,58 @@ const FilterArea = props => {
     setFilterValues(newFilterValues);
 
     if (currentValue.type === utils.FILTER_TYPES.TYPE) {
-      const newTypes = [...types].map(type =>
-        type._id === currentValue._id ? { ...type, isChecked: false } : type
-      );
+      const newTypes = {
+        ...types,
+        [currentValue._id]: { ...currentValue, isChecked: false },
+      };
       setTypes(newTypes);
     } else if (currentValue.type === utils.FILTER_TYPES.LANGUAGE) {
-      const newLanguages = [...languages].map(language =>
-        language._id === currentValue._id
-          ? { ...language, isChecked: false }
-          : language
-      );
+      const newLanguages = {
+        ...languages,
+        [currentValue._id]: { ...currentValue, isChecked: false },
+      };
       setLanguages(newLanguages);
     } else if (currentValue.type === utils.FILTER_TYPES.GENRE) {
-      const newGenres = [...genres].map(genre =>
-        genre._id === currentValue._id ? { ...genre, isChecked: false } : genre
-      );
+      const newGenres = {
+        ...genres,
+        [currentValue._id]: { ...currentValue, isChecked: false },
+      };
       setGenres(newGenres);
     }
   };
 
   const handleResetFilter = () => {
     setFilterValues([]);
-    setTypes(props.types || []);
-    setLanguages(props.languages || []);
-    setGenres(props.genres || []);
+    setTypes(props.types || {});
+    setLanguages(props.languages || {});
+    setGenres(props.genres || {});
+  };
+
+  const applyFilter = () => {
+    const { getAllShows, userId } = props;
+
+    const typesList = [];
+    const languagesList = [];
+    const genresList = [];
+
+    for (let value of allFilterValues) {
+      if (value.type === utils.FILTER_TYPES.TYPE) {
+        typesList.push(value._id);
+      } else if (value.type === utils.FILTER_TYPES.LANGUAGE) {
+        languagesList.push(value._id);
+      } else if (value.type === utils.FILTER_TYPES.GENRE) {
+        genresList.push(value._id);
+      }
+    }
+
+    console.log('ON SUBMIT: ', typesList, languagesList, genresList, userId);
+
+    getAllShows({
+      userId,
+      types: typesList,
+      languages: languagesList,
+      genres: genresList,
+    });
   };
 
   const filterChipComponent = allFilterValues.map(value => (
@@ -162,6 +181,7 @@ const FilterArea = props => {
                   color="primary"
                   fullWidth
                   disabled={allFilterValues && allFilterValues.length < 1}
+                  onClick={applyFilter}
                 >
                   Apply
                 </Button>
@@ -176,6 +196,7 @@ const FilterArea = props => {
                     color="primary"
                     fullWidth
                     disabled={allFilterValues && allFilterValues.length < 1}
+                    onClick={applyFilter}
                   >
                     Apply
                   </Button>

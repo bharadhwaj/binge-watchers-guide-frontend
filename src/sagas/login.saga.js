@@ -1,7 +1,12 @@
 import axios from 'axios';
 import { all, put, takeLatest } from '@redux-saga/core/effects';
 
-import { loadingAction, toastAction, userAction } from '../actions';
+import {
+  loadingAction,
+  showsAction,
+  toastAction,
+  userAction,
+} from '../actions';
 
 import { actions, urls, utils } from '../constants';
 
@@ -40,6 +45,7 @@ function* loginSubmitWorker({ payload }) {
       );
 
       yield put(userAction.updateUserData(user));
+      yield put(showsAction.getAllShows({ userId: user._id }));
     }
   } catch (error) {
     yield put(loadingAction.stopLoginLoading());

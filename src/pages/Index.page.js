@@ -31,23 +31,28 @@ import { logoutUser } from '../utils/users';
 
 class IndexPage extends Component {
   componentDidMount() {
-    const { getAllStatics, getAllShows } = this.props;
+    const { getAllStatics, getAllShows, userId } = this.props;
 
     getAllStatics();
-    getAllShows();
+    getAllShows({ userId });
   }
 
   render() {
     const {
       redirectToPage,
       requestToShowToast,
+      getAllShows,
       checkForUsername,
       onRegisterSubmit,
       onLoginSubmit,
+      onAddShowSubmit,
       logoutUser,
+      isGetStaticsLoading,
       isCheckUsernameLoading,
+      isSubmitLoginLoading,
       isUserLoggedIn,
       isValidUsername,
+      userId,
       username,
       types,
       languages,
@@ -57,48 +62,72 @@ class IndexPage extends Component {
 
     return (
       <>
-        <>
-          <Navbar
-            redirectToPage={redirectToPage}
-            requestToShowToast={requestToShowToast}
-            checkForUsername={checkForUsername}
-            onRegisterSubmit={onRegisterSubmit}
-            onLoginSubmit={onLoginSubmit}
-            logoutUser={logoutUser}
-            isCheckUsernameLoading={isCheckUsernameLoading}
-            isUserLoggedIn={isUserLoggedIn}
-            isValidUsername={isValidUsername}
-            username={username}
-            types={types}
-            languages={languages}
-            genres={genres}
-          />
-        </>
-        <Grid container justify="flex-start">
-          <Hidden mdUp>
-            <Grid item xs={12}>
-              <FilterAreaMobile
+        {!isGetStaticsLoading && (
+          <>
+            <>
+              <Navbar
+                redirectToPage={redirectToPage}
+                requestToShowToast={requestToShowToast}
+                checkForUsername={checkForUsername}
+                onRegisterSubmit={onRegisterSubmit}
+                onLoginSubmit={onLoginSubmit}
+                onAddShowSubmit={onAddShowSubmit}
+                logoutUser={logoutUser}
+                isSubmitLoginLoading={isSubmitLoginLoading}
+                isCheckUsernameLoading={isCheckUsernameLoading}
+                isUserLoggedIn={isUserLoggedIn}
+                isValidUsername={isValidUsername}
+                username={username}
                 types={types}
                 languages={languages}
                 genres={genres}
               />
+            </>
+
+            <Grid container justify="flex-start">
+              <Hidden mdUp>
+                <Grid item xs={12}>
+                  <FilterAreaMobile
+                    userId={userId}
+                    getAllShows={getAllShows}
+                    types={types}
+                    languages={languages}
+                    genres={genres}
+                  />
+                </Grid>
+              </Hidden>
+              <Grid item xs={12} md={8}>
+                {shows.map(show => (
+                  <MovieDescription
+                    key={show._id}
+                    {...show}
+                    type={types && types[show.type] && types[show.type].name}
+                    language={
+                      languages &&
+                      languages[show.language] &&
+                      languages[show.language].name
+                    }
+                    genres={show.genres.map(
+                      genreId =>
+                        genres && genres[genreId] && genres[genreId].name
+                    )}
+                  />
+                ))}
+              </Grid>
+              <Hidden smDown>
+                <Grid item md>
+                  <FilterAreaWeb
+                    userId={userId}
+                    getAllShows={getAllShows}
+                    types={types}
+                    languages={languages}
+                    genres={genres}
+                  />
+                </Grid>
+              </Hidden>
             </Grid>
-          </Hidden>
-          <Grid item xs={12} md={8}>
-            {shows.map(show => (
-              <MovieDescription key={show._id} {...show} />
-            ))}
-          </Grid>
-          <Hidden smDown>
-            <Grid item md>
-              <FilterAreaWeb
-                types={types}
-                languages={languages}
-                genres={genres}
-              />
-            </Grid>
-          </Hidden>
-        </Grid>
+          </>
+        )}
       </>
     );
   }
@@ -109,10 +138,11 @@ const mapDispatchToProps = dispatch => ({
     return dispatch(push(url));
   },
   getAllStatics: () => {
+    dispatch(loadingAction.startGetStaticsLoading());
     return dispatch(staticAction.getAllStatics());
   },
-  getAllShows: () => {
-    return dispatch(showsAction.getAllShows());
+  getAllShows: filter => {
+    return dispatch(showsAction.getAllShows(filter));
   },
   requestToShowToast: (variant, message) => {
     return dispatch(toastAction.requestToShowToast(variant, message));
@@ -129,16 +159,25 @@ const mapDispatchToProps = dispatch => ({
     dispatch(loadingAction.startLoginLoading());
     return dispatch(loginAction.submitForLogin(username, password));
   },
+  onAddShowSubmit: show => {
+    dispatch(loadingAction.startAddShowLoading());
+    return dispatch(showsAction.addShow(show));
+  },
   logoutUser: () => {
     logoutUser();
+    dispatch(showsAction.resetVotes());
     return dispatch(userAction.resetUserData());
   },
 });
 
 const mapStateToProps = createStructuredSelector({
+  isGetStaticsLoading: loadingSelector.getStaticsLoadingState(),
+  isGetAllShowsLoading: loadingSelector.getAllShowsLoadingState(),
   isCheckUsernameLoading: loadingSelector.getCheckUsernameLoadingState(),
+  isSubmitLoginLoading: loadingSelector.getLoginLoadingState(),
   isUserLoggedIn: userSelector.isUserLoggedIn(),
   isValidUsername: userSelector.isValidUsername(),
+  userId: userSelector.getCurrentUserId(),
   username: userSelector.getCurrentUsername(),
   types: staticSelector.getAllTypes(),
   languages: staticSelector.getAllLanguages(),

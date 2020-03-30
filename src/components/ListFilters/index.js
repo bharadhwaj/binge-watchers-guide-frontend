@@ -42,7 +42,7 @@ const ListFilters = props => {
           </ExpansionPanelSummary>
           <ExpansionPanelDetails className={classes.expansionPanelBody}>
             <List className={classes.filterListArea}>
-              {values.map(value => (
+              {Object.values(values).map(value => (
                 <ListItem
                   key={value._id}
                   role={undefined}

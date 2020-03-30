@@ -82,7 +82,13 @@ const AddShow = props => {
 
   const handleAddShowSubmit = event => {
     event.preventDefault();
-    onAddShowSubmit(name, url, typeId, languageId, genreIds);
+    onAddShowSubmit({
+      name,
+      url,
+      type: typeId,
+      language: languageId,
+      genres: genreIds,
+    });
   };
 
   return (
@@ -139,7 +145,7 @@ const AddShow = props => {
                     labelWidth={35}
                     fullWidth
                   >
-                    {types.map(type => (
+                    {Object.values(types).map(type => (
                       <MenuItem key={type._id} value={type._id}>
                         {type.name}
                       </MenuItem>
@@ -161,7 +167,7 @@ const AddShow = props => {
                     labelWidth={67}
                     fullWidth
                   >
-                    {languages.map(language => (
+                    {Object.values(languages).map(language => (
                       <MenuItem key={language._id} value={language._id}>
                         {language.name}
                       </MenuItem>
@@ -199,9 +205,7 @@ const AddShow = props => {
                           {selected.map(value => (
                             <Chip
                               key={value}
-                              label={
-                                genres.find(genre => genre._id === value).name
-                              }
+                              label={genres[value].name}
                               className={classes.chip}
                             />
                           ))}
@@ -210,7 +214,7 @@ const AddShow = props => {
                       multiple
                       fullWidth
                     >
-                      {genres.map(genre => (
+                      {Object.values(genres).map(genre => (
                         <MenuItem
                           key={genre._id}
                           value={genre._id}

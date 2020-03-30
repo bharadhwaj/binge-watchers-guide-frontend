@@ -21,11 +21,11 @@ const MovieDescriptionCard = props => {
   const theme = useTheme();
   const isMobileView = useMediaQuery(theme.breakpoints.down('xs'));
 
-  const { name, url, language, type, genre: genreList } = props;
+  const { name, url, language, type, genres } = props;
 
   const genreComponent =
-    genreList &&
-    genreList.map((genre, index) => (
+    genres &&
+    genres.map((genre, index) => (
       <Chip
         key={index}
         className={classes.genreTab}

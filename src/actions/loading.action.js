@@ -1,5 +1,21 @@
 import { LOADING } from '../constants/actions';
 
+export function startGetStaticsLoading() {
+  return { type: LOADING.START_GET_STATICS_LOADING };
+}
+
+export function stopGetStaticsLoading() {
+  return { type: LOADING.STOP_GET_STATICS_LOADING };
+}
+
+export function startGetAllShowsLoading() {
+  return { type: LOADING.START_GET_ALL_SHOWS_LOADING };
+}
+
+export function stopGetAllShowsLoading() {
+  return { type: LOADING.STOP_GET_ALL_SHOWS_LOADING };
+}
+
 export function startCheckUsernameLoading() {
   return { type: LOADING.START_CHECK_USERNAME_LOADING };
 }

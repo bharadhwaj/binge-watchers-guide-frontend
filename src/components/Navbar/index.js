@@ -33,7 +33,9 @@ const Navbar = props => {
     checkForUsername,
     onRegisterSubmit,
     onLoginSubmit,
+    onAddShowSubmit,
     logoutUser,
+    isSubmitLoginLoading,
     isCheckUsernameLoading,
     isUserLoggedIn,
     isValidUsername,
@@ -185,6 +187,7 @@ const Navbar = props => {
             <Grid item xs={12}>
               <Login
                 onLoginSubmit={onLoginSubmit}
+                isSubmitLoginLoading={isSubmitLoginLoading}
                 handleOpenRegisterPopup={handleOpenRegisterPopup}
                 handleCloseLoginPopup={handleCloseLoginPopup}
               />
@@ -240,7 +243,12 @@ const Navbar = props => {
               </Grid>
             </Grid>
             <Grid item xs={12}>
-              <AddShow types={types} languages={languages} genres={genres} />
+              <AddShow
+                onAddShowSubmit={onAddShowSubmit}
+                types={types}
+                languages={languages}
+                genres={genres}
+              />
             </Grid>
           </Grid>
         </DialogContent>

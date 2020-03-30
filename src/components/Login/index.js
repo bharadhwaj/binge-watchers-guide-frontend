@@ -23,7 +23,7 @@ const Login = props => {
     handleOpenRegisterPopup,
     handleCloseLoginPopup,
     onLoginSubmit,
-    isLoginSubmitLoading,
+    isSubmitLoginLoading,
   } = props;
 
   const classes = makeStyles(style)();
@@ -137,7 +137,7 @@ const Login = props => {
                   onClick={handleLoginSubmit}
                   fullWidth
                 >
-                  {!isLoginSubmitLoading ? 'Login' : <CircularProgress />}
+                  {!isSubmitLoginLoading ? 'Login' : <CircularProgress />}
                 </Button>
               </Grid>
             </Grid>

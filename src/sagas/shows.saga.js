@@ -1,94 +1,95 @@
-import { all, put, takeEvery } from '@redux-saga/core/effects';
+import axios from 'axios';
+import {
+  all,
+  put,
+  select,
+  takeEvery,
+  takeLatest,
+} from '@redux-saga/core/effects';
 
-import { showsAction } from '../actions';
+import { loadingAction, showsAction, toastAction } from '../actions';
 
-import { actions } from '../constants';
+import { actions, urls, utils } from '../constants';
+
+import { userSelector } from '../selectors';
+
+import handleError from '../utils/errorHandler';
 
 /* -----------------------------------------
  *                 WORKERS
  * -----------------------------------------
  */
 
-function* getAllShowsWorker() {
-  const shows = [
-    {
-      _id: '1',
-      name: 'Kumbalangi Nights',
-      url: 'https://www.primevideo.com/detail/0IIH4C2IQSRU9B8L3F4XOLI5WH/',
-      language: 'Malayalam',
-      type: 'Movie',
-      genre: ['Drama', 'Thriller'],
-      upvotes: 12,
-      downvotes: 2,
-      haveUpvoted: true,
-      haveDownvoted: false,
-    },
-    {
-      _id: '2',
-      name: 'The Prestige',
-      url:
-        'https://www.primevideo.com/region/eu/detail/0NHF8XHW3MHY857TGPSWTYCXTI/',
-      language: 'English',
-      type: 'Movie',
-      genre: ['Drama', 'Suspense'],
-      upvotes: 28,
-      downvotes: 4,
-      haveUpvoted: false,
-      haveDownvoted: true,
-    },
-    {
-      _id: '3',
-      name: 'Kumbalangi Nights',
-      url: 'https://www.primevideo.com/detail/0IIH4C2IQSRU9B8L3F4XOLI5WH/',
-      language: 'Malayalam',
-      type: 'Movie',
-      genre: ['Drama', 'Thriller'],
-      upvotes: 12,
-      downvotes: 2,
-      haveUpvoted: false,
-      haveDownvoted: false,
-    },
-    {
-      _id: '4',
-      name: 'The Prestige',
-      url:
-        'https://www.primevideo.com/region/eu/detail/0NHF8XHW3MHY857TGPSWTYCXTI/',
-      language: 'English',
-      type: 'Movie',
-      genre: ['Drama', 'Suspense'],
-      upvotes: 28,
-      downvotes: 4,
-      haveUpvoted: false,
-      haveDownvoted: true,
-    },
-    {
-      _id: '5',
-      name: 'Kumbalangi Nights',
-      url: 'https://www.primevideo.com/detail/0IIH4C2IQSRU9B8L3F4XOLI5WH/',
-      language: 'Malayalam',
-      type: 'Movie',
-      genre: ['Drama', 'Thriller'],
-      upvotes: 12,
-      downvotes: 2,
-      haveUpvoted: true,
-      haveDownvoted: false,
-    },
-    {
-      _id: '6',
-      name: 'The Prestige',
-      url:
-        'https://www.primevideo.com/region/eu/detail/0NHF8XHW3MHY857TGPSWTYCXTI/',
-      language: 'English',
-      type: 'Movie',
-      genre: ['Drama', 'Suspense'],
-      upvotes: 28,
-      downvotes: 4,
-      haveUpvoted: false,
-      haveDownvoted: true,
-    },
-  ];
+function* getAllShowsWorker({ payload }) {
+  try {
+    handleError(axios);
 
-  yield put(showsAction.addShows(shows));
+    const { userId, types, languages, genres } = payload;
+
+    const requestURL = urls.GET_ALL_SHOWS;
+
+    const headers = {
+      'Content-Type': 'application/json',
+    };
+
+    const params = {
+      ...(userId && { user_id: userId }),
+      ...(types && types.length > 0 && { types: types.join(',') }),
+      ...(languages &&
+        languages.length > 0 && { languages: languages.join(',') }),
+      ...(genres && genres.length > 0 && { genres: genres.join(',') }),
+    };
+
+    const response = yield axios.get(requestURL, { headers, params });
+
+    console.log('ADD SHOW RESPONSE: ', response);
+
+    yield put(loadingAction.stopGetAllShowsLoading());
+
+    if (response && response.status === 200) {
+      const { data } = response;
+      const { shows } = data.data;
+
+      yield put(showsAction.updateShows(shows));
+    }
+  } catch (error) {
+    yield put(loadingAction.stopGetAllShowsLoading());
+  }
+}
+
+function* addShowWorker({ payload }) {
+  try {
+    handleError(axios);
+    const userId = yield select(userSelector.getCurrentUserId());
+
+    const requestURL = urls.ADD_SHOWS.replace(/<USER_ID>/, userId);
+
+    const body = payload.show;
+
+    const headers = {
+      'Content-Type': 'application/json',
+    };
+
+    const response = yield axios.post(requestURL, body, { headers });
+
+    console.log('ADD SHOW RESPONSE: ', response);
+
+    yield put(loadingAction.stopAddShowLoading());
+
+    if (response && response.status === 201) {
+      const { data } = response;
+      const { message } = data;
+      const { show } = data.data;
+
+      yield put(showsAction.updateShows([show]));
+
+      yield put(
+        toastAction.requestToShowToast(utils.MESSAGE_VARIANTS.SUCCESS, message)
+      );
+    }
+  } catch (error) {
+    yield put(loadingAction.stopAddShowLoading());
+  }
 }
 
 /* -----------------------------------------
@@ -97,9 +98,13 @@ function* getAllShowsWorker() {
  */
 
 function* getAllShowsWatcher() {
-  yield takeEvery(actions.SHOWS.GET_ALL_SHOWS, getAllShowsWorker);
+  yield takeLatest(actions.SHOWS.GET_ALL_SHOWS, getAllShowsWorker);
+}
+
+function* addShowWatcher() {
+  yield takeEvery(actions.SHOWS.ADD_SHOW, addShowWorker);
 }
 
 export default function* showsSaga() {
-  yield all([getAllShowsWatcher()]);
+  yield all([getAllShowsWatcher(), addShowWatcher()]);
 }

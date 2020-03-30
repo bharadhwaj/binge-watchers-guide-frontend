@@ -1,7 +1,12 @@
 import axios from 'axios';
 import { all, debounce, put, takeLatest } from '@redux-saga/core/effects';
 
-import { loadingAction, toastAction, userAction } from '../actions';
+import {
+  loadingAction,
+  showsAction,
+  toastAction,
+  userAction,
+} from '../actions';
 
 import { actions, urls, utils } from '../constants';
 
@@ -66,6 +71,7 @@ function* registerSubmitWorker({ payload }) {
       );
 
       yield put(userAction.updateUserData(user));
+      yield put(showsAction.getAllShows({ userId: user._id }));
     }
   } catch (error) {
     yield put(loadingAction.stopRegisterLoading());
