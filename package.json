@@ -29,12 +29,12 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "gh-deploy": "yarn build && echo \"bwg.bharadhwaj.xyz\" > ./build/CNAME && gh-pages -d build"
+    "gh-deploy": "yarn build && echo \"bingewatchersguide.online\" > ./build/CNAME && gh-pages -d build"
   },
   "eslintConfig": {
     "extends": "react-app"
   },
-  "homepage": "https://bwg.bharadhwaj.xyz",
+  "homepage": "https://bingewatchersguide.online",
   "browserslist": {
     "production": [
       ">0.2%",
