@@ -40,6 +40,11 @@ function* getAllShowsWorker({ payload }) {
       ...(genres && genres.length > 0 && { genres: genres.join(',') }),
     };
 
+    const isFilterApiCall =
+      (types && types.length > 0) ||
+      (languages && languages.length > 0) ||
+      (genres && genres.length > 0);
+
     const response = yield axios.get(requestURL, { headers, params });
 
     console.log('ADD SHOW RESPONSE: ', response);
@@ -50,7 +55,11 @@ function* getAllShowsWorker({ payload }) {
       const { data } = response;
       const { shows } = data.data;
 
-      yield put(showsAction.updateShows(shows));
+      if (isFilterApiCall) {
+        yield put(showsAction.updateShows(shows));
+      } else {
+        yield put(showsAction.appendShows(shows));
+      }
     }
   } catch (error) {
     yield put(loadingAction.stopGetAllShowsLoading());
@@ -81,7 +90,7 @@ function* addShowWorker({ payload }) {
       const { message } = data;
       const { show } = data.data;
 
-      yield put(showsAction.updateShows([show]));
+      yield put(showsAction.appendShows([show]));
 
       yield put(
         toastAction.requestToShowToast(utils.MESSAGE_VARIANTS.SUCCESS, message)

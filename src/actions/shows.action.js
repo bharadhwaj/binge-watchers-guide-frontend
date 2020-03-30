@@ -16,6 +16,10 @@ export function addShow(show) {
   return { type: SHOWS.ADD_SHOW, payload: { show } };
 }
 
+export function appendShows(shows) {
+  return { type: SHOWS.APPEND_SHOWS, payload: { shows } };
+}
+
 export function updateShows(shows) {
   return { type: SHOWS.UPDATE_SHOWS, payload: { shows } };
 }

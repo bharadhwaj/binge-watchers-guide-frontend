@@ -52,6 +52,7 @@ export const STATIC = {
 export const SHOWS = {
   GET_ALL_SHOWS: 'bwg/Shows/GET_ALL_SHOWS',
   ADD_SHOW: 'bwg/Shows/ADD_SHOW',
+  APPEND_SHOWS: 'bwg/Shows/APPEND_SHOWS',
   UPDATE_SHOWS: 'bwg/Shows/UPDATE_SHOWS',
   RESET_VOTES: 'bwg/Shows/RESET_VOTES',
 };
