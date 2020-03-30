@@ -57,7 +57,7 @@ const Navbar = props => {
   React.useEffect(() => {
     setLoginPopupState(false);
     setRegisterPopupState(false);
-  }, [isUserLoggedIn]);
+  }, [isUserLoggedIn, setLoginPopupState]);
 
   const handleLogout = () => {
     logoutUser();
