@@ -125,7 +125,7 @@ const FilterArea = props => {
   };
 
   const applyFilter = () => {
-    const { getAllShows, userId } = props;
+    const { getAllShows, userId, handleCloseFilterArea } = props;
 
     const typesList = [];
     const languagesList = [];
@@ -147,6 +147,8 @@ const FilterArea = props => {
       languages: languagesList,
       genres: genresList,
     });
+
+    handleCloseFilterArea && handleCloseFilterArea();
   };
 
   const filterChipComponent = allFilterValues.map(value => (

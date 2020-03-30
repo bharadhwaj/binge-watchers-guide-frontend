@@ -45,7 +45,6 @@ const FilterAreaMobile = props => {
         TransitionComponent={SlideTransition}
         fullScreen
         maxWidth="sm"
-        keepMounted={false}
         onClose={handleCloseFilterArea}
       >
         <AppBar position="sticky">
@@ -59,7 +58,7 @@ const FilterAreaMobile = props => {
             </IconButton>
           </Toolbar>
         </AppBar>
-        <FilterArea {...props} />
+        <FilterArea {...props} handleCloseFilterArea={handleCloseFilterArea} />
       </Dialog>
     </>
   );
