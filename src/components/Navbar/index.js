@@ -39,6 +39,8 @@ const Navbar = props => {
     isCheckUsernameLoading,
     isUserLoggedIn,
     isValidUsername,
+    loginPopupState,
+    setLoginPopupState,
     username,
     types,
     languages,
@@ -49,7 +51,6 @@ const Navbar = props => {
   const theme = useTheme();
   const isMobileView = useMediaQuery(theme.breakpoints.down('sm'));
 
-  const [loginPopupState, setLoginPopupState] = React.useState(false);
   const [registerPopupState, setRegisterPopupState] = React.useState(false);
   const [addShowPopupState, setAddShowPopupState] = React.useState(false);
 

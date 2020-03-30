@@ -31,6 +31,18 @@ import {
 import { logoutUser } from '../utils/users';
 
 class IndexPage extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      loginPopupState: false,
+    };
+  }
+
+  setLoginPopupState = popupState => {
+    this.setState({ loginPopupState: popupState });
+  };
+
   componentDidMount() {
     const { getAllStatics, getAllShows, userId } = this.props;
 
@@ -63,6 +75,8 @@ class IndexPage extends Component {
       shows,
     } = this.props;
 
+    const { loginPopupState } = this.state;
+
     return (
       <>
         {isGetStaticsLoading ? (
@@ -71,6 +85,8 @@ class IndexPage extends Component {
           <>
             <>
               <Navbar
+                loginPopupState={loginPopupState}
+                setLoginPopupState={this.setLoginPopupState}
                 redirectToPage={redirectToPage}
                 requestToShowToast={requestToShowToast}
                 checkForUsername={checkForUsername}
@@ -109,6 +125,8 @@ class IndexPage extends Component {
                     requestToShowToast={requestToShowToast}
                     onUpvoteShow={onUpvoteShow}
                     onDownvoteShow={onDownvoteShow}
+                    loginPopupState={loginPopupState}
+                    setLoginPopupState={this.setLoginPopupState}
                     {...show}
                     type={types && types[show.type] && types[show.type].name}
                     language={

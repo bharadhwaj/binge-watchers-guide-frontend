@@ -117,8 +117,6 @@ function* upvoteShowWorker({ payload }) {
 
     const response = yield axios.post(requestURL, body, { headers });
 
-    console.log('UPVOTE SHOW RESPONSE: ', response);
-
     yield put(loadingAction.stopVoteShowLoading());
 
     if (response && response.status === 200) {
@@ -126,7 +124,7 @@ function* upvoteShowWorker({ payload }) {
       const { message } = data;
       const { show } = data.data;
 
-      yield put(showsAction.appendShows([{ ...show, haveUpvoted: isUpvote }]));
+      yield put(showsAction.appendShows([show]));
 
       yield put(
         toastAction.requestToShowToast(utils.MESSAGE_VARIANTS.SUCCESS, message)
@@ -157,8 +155,6 @@ function* downvoteShowWorker({ payload }) {
 
     const response = yield axios.post(requestURL, body, { headers });
 
-    console.log('DOWNVOTE SHOW RESPONSE: ', response);
-
     yield put(loadingAction.stopVoteShowLoading());
 
     if (response && response.status === 200) {
@@ -166,9 +162,7 @@ function* downvoteShowWorker({ payload }) {
       const { message } = data;
       const { show } = data.data;
 
-      yield put(
-        showsAction.appendShows([{ ...show, haveDownvoted: isDownvote }])
-      );
+      yield put(showsAction.appendShows([show]));
 
       yield put(
         toastAction.requestToShowToast(utils.MESSAGE_VARIANTS.SUCCESS, message)

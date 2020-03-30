@@ -20,6 +20,7 @@ const VoteArea = props => {
   const {
     isUserLoggedIn,
     requestToShowToast,
+    setLoginPopupState,
     onUpvoteShow,
     onDownvoteShow,
     _id,
@@ -35,6 +36,7 @@ const VoteArea = props => {
     if (isUserLoggedIn) {
       onUpvoteShow(_id, !haveUpvoted);
     } else {
+      setLoginPopupState(true);
       requestToShowToast(
         utils.MESSAGE_VARIANTS.INFO,
         'You have to login to vote.'
@@ -46,6 +48,7 @@ const VoteArea = props => {
     if (isUserLoggedIn) {
       onDownvoteShow(_id, !haveDownvoted);
     } else {
+      setLoginPopupState(true);
       requestToShowToast(
         utils.MESSAGE_VARIANTS.INFO,
         'You have to login to vote.'
