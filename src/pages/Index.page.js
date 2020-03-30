@@ -8,6 +8,7 @@ import Hidden from '@material-ui/core/Hidden';
 
 import FilterAreaMobile from '../components/FilterAreaMobile';
 import FilterAreaWeb from '../components/FilterAreaWeb';
+import Loading from '../components/Loading';
 import MovieDescription from '../components/MovieDescription';
 import Navbar from '../components/Navbar';
 
@@ -62,7 +63,9 @@ class IndexPage extends Component {
 
     return (
       <>
-        {!isGetStaticsLoading && (
+        {isGetStaticsLoading ? (
+          <Loading loading={isGetStaticsLoading} />
+        ) : (
           <>
             <>
               <Navbar

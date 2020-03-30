@@ -1,5 +1,3 @@
-import { push } from 'connected-react-router';
-
 import { toastAction } from '../actions';
 import { storage, utils } from '../constants';
 import { checkIfUserIsLoggedIn, logoutUser } from './users';
@@ -17,11 +15,6 @@ const checkTokenExpiration = store => next => action => {
         'Your session has expired. Please login again.'
       )
     );
-
-    setTimeout(() => {
-      // store.dispatch(userAction.resetUserInfo());
-      store.dispatch(push('/login'));
-    }, 3000);
   }
 
   next(action);
