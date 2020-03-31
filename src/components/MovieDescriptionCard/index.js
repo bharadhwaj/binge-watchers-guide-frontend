@@ -185,7 +185,7 @@ const MovieDescriptionCard = props => {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button autoFocus onClick={handleCancelDelete} color="grey">
+          <Button autoFocus onClick={handleCancelDelete} color="default">
             CANCEL
           </Button>
           <Button onClick={handleDeleteShowSubmit} color="primary" autoFocus>
