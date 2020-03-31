@@ -130,14 +130,9 @@ function* upvoteShowWorker({ payload }) {
 
     if (response && response.status === 200) {
       const { data } = response;
-      const { message } = data;
       const { show } = data.data;
 
       yield put(showsAction.appendShows([show]));
-
-      yield put(
-        toastAction.requestToShowToast(utils.MESSAGE_VARIANTS.SUCCESS, message)
-      );
     }
   } catch (error) {
     yield put(loadingAction.stopVoteShowLoading());
@@ -171,14 +166,9 @@ function* downvoteShowWorker({ payload }) {
 
     if (response && response.status === 200) {
       const { data } = response;
-      const { message } = data;
       const { show } = data.data;
 
       yield put(showsAction.appendShows([show]));
-
-      yield put(
-        toastAction.requestToShowToast(utils.MESSAGE_VARIANTS.SUCCESS, message)
-      );
     }
   } catch (error) {
     yield put(loadingAction.stopVoteShowLoading());
