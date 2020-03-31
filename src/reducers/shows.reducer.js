@@ -40,17 +40,13 @@ export default function staticReducer(state = initialState, action) {
       };
     }
 
-    case SHOWS.REMOVE_SHOWS: {
-      const currentShows = state.shows;
-      const newShow = action.payload.shows[0];
-
-      const updatesShows = currentShows.filter(item => item._id !== newShow._id)
-
+    case SHOWS.REMOVE_SHOW:
       return {
         ...state,
-        shows: updatesShows,
+        shows: [
+          ...state.shows.filter(item => item._id !== action.payload.show._id),
+        ],
       };
-    }
 
     default:
       return { ...state };

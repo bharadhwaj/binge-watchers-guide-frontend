@@ -21,10 +21,6 @@ export function appendShows(shows) {
   return { type: SHOWS.APPEND_SHOWS, payload: { shows } };
 }
 
-export function removeShow(shows) {
-  return { type: SHOWS.REMOVE_SHOWS, payload: { shows } };
-}
-
 export function updateShows(shows) {
   return { type: SHOWS.UPDATE_SHOWS, payload: { shows } };
 }
@@ -43,4 +39,8 @@ export function downvoteShow(showId, isDownvote) {
 
 export function deleteShow(showId) {
   return { type: SHOWS.DELETE_SHOW, payload: { showId } };
+}
+
+export function removeShow(show) {
+  return { type: SHOWS.REMOVE_SHOW, payload: { show } };
 }

@@ -57,7 +57,7 @@ export const SHOWS = {
   GET_ALL_SHOWS: 'bwg/Shows/GET_ALL_SHOWS',
   ADD_SHOW: 'bwg/Shows/ADD_SHOW',
   APPEND_SHOWS: 'bwg/Shows/APPEND_SHOWS',
-  REMOVE_SHOWS: 'bwg/Shows/REMOVE_SHOWS',
+  REMOVE_SHOW: 'bwg/Shows/REMOVE_SHOW',
   UPDATE_SHOWS: 'bwg/Shows/UPDATE_SHOWS',
   RESET_VOTES: 'bwg/Shows/RESET_VOTES',
   UPVOTE_SHOW: 'bwg/Shows/UPVOTE_SHOW',

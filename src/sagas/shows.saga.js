@@ -206,10 +206,11 @@ function* deleteShowWorker({ payload }) {
       const { data } = response;
       const { show } = data.data;
       const { message } = data;
-      yield put(toastAction.requestToShowToast(utils.MESSAGE_VARIANTS.SUCCESS, message));
+      yield put(
+        toastAction.requestToShowToast(utils.MESSAGE_VARIANTS.SUCCESS, message)
+      );
 
-
-      yield put(showsAction.removeShow([show]));
+      yield put(showsAction.removeShow(show));
     }
   } catch (error) {
     yield put(loadingAction.stopDeleteShowLoading());
