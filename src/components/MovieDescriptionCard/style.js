@@ -45,6 +45,10 @@ const style = theme => ({
   languageIcon: {
     color: '#8097A4',
   },
+  deleteIcon: {
+    color: '#8097A4',
+    marginTop: 6
+  },
   languageText: {
     marginLeft: '.75rem',
     fontSize: 16,

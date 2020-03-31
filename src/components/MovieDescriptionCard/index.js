@@ -6,11 +6,17 @@ import Divider from '@material-ui/core/Divider';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
+import Dialog from '@material-ui/core/Dialog';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContentText from '@material-ui/core/DialogContentText';
 
 import CameraRollRoundedIcon from '@material-ui/icons/CameraRollRounded';
 import LanguageRoundedIcon from '@material-ui/icons/LanguageRounded';
 import MovieRoundedIcon from '@material-ui/icons/MovieRounded';
 import OpenInNewRoundedIcon from '@material-ui/icons/OpenInNewRounded';
+import DeleteIcon from '@material-ui/icons/Delete';
 
 import { useTheme, makeStyles } from '@material-ui/core/styles';
 
@@ -21,7 +27,9 @@ const MovieDescriptionCard = props => {
   const theme = useTheme();
   const isMobileView = useMediaQuery(theme.breakpoints.down('xs'));
 
-  const { name, url, language, type, genres } = props;
+  const { name, _id, url, created_by, userId, language, type, genres, onDeleteShow } = props;
+
+  const [deleteShowPopupState, setDeleteShowPopupState] = React.useState(false);
 
   const genreComponent =
     genres &&
@@ -35,6 +43,11 @@ const MovieDescriptionCard = props => {
         label={genre}
       />
     ));
+
+  const handleDeleteShowSubmit = event => {
+    event.preventDefault();
+    onDeleteShow(_id);
+  };
 
   return (
     <>
@@ -53,6 +66,10 @@ const MovieDescriptionCard = props => {
               {isMobileView ? <OpenInNewRoundedIcon /> : 'Watch'}
             </Button>
           )}
+          {
+            created_by === userId &&
+            <DeleteIcon className={classes.deleteIcon} onClick={() => setDeleteShowPopupState(true)}></DeleteIcon>
+          }
         </Grid>
 
         <Divider />
@@ -100,6 +117,28 @@ const MovieDescriptionCard = props => {
           </Grid>
         </Grid>
       </Grid>
+      <Dialog
+        open={deleteShowPopupState}
+        fullWidth
+        maxWidth="sm"
+        keepMounted={false}
+        onClose={() => setDeleteShowPopupState(false)}
+      >
+        <DialogTitle id="confirmation-dialog-title">Delete</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Are you sure you want to delete the show ?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button autoFocus onClick={() => setDeleteShowPopupState(false)} color="grey">
+            CANCEL
+          </Button>
+          <Button onClick={handleDeleteShowSubmit} color="primary" autoFocus>
+            DELETE
+          </Button>
+        </DialogActions>
+      </Dialog>
     </>
   );
 };
