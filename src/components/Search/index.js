@@ -9,8 +9,15 @@ import SearchIcon from '@material-ui/icons/Search';
 
 import style from './style';
 
-const Search = () => {
+const Search = props => {
+  const { getAllShows } = props;
+
   const classes = makeStyles(style)();
+
+  const onTypingInSearch = event => {
+    console.log('I AM HERE --- ', event.target.value);
+    getAllShows({ q: event.target.value });
+  };
 
   return (
     <Grid className={classes.search}>
@@ -18,6 +25,7 @@ const Search = () => {
         <SearchIcon />
       </Grid>
       <InputBase
+        onChange={onTypingInSearch}
         placeholder="Search…"
         classes={{
           root: classes.inputRoot,

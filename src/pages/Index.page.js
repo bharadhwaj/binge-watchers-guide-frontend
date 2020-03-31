@@ -96,6 +96,7 @@ class IndexPage extends Component {
                 onRegisterSubmit={onRegisterSubmit}
                 onLoginSubmit={onLoginSubmit}
                 onAddShowSubmit={onAddShowSubmit}
+                getAllShows={getAllShows}
                 logoutUser={logoutUser}
                 isSubmitLoginLoading={isSubmitLoginLoading}
                 isSubmitRegisterLoading={isSubmitRegisterLoading}
@@ -114,7 +115,7 @@ class IndexPage extends Component {
               <Hidden mdUp>
                 <Grid container justify="center" style={{ paddingTop: '1rem' }}>
                   <Grid item xs={8}>
-                    <Search />
+                    <Search getAllShows={getAllShows} />
                   </Grid>
                   <Grid item xs={12}>
                     <FilterAreaMobile

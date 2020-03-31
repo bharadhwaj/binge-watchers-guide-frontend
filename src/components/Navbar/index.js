@@ -35,6 +35,7 @@ const Navbar = props => {
     onRegisterSubmit,
     onLoginSubmit,
     onAddShowSubmit,
+    getAllShows,
     logoutUser,
     isSubmitRegisterLoading,
     isSubmitLoginLoading,
@@ -126,7 +127,7 @@ const Navbar = props => {
                 <Grid container justify="space-between" alignItems="center">
                   {!isMobileView && (
                     <Grid item xs>
-                      <Search />
+                      <Search getAllShows={getAllShows} />
                     </Grid>
                   )}
                   <Grid item xs>

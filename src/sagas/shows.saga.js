@@ -1,6 +1,7 @@
 import axios from 'axios';
 import {
   all,
+  debounce,
   put,
   select,
   takeEvery,
@@ -26,7 +27,7 @@ function* getAllShowsWorker({ payload }) {
 
     const authToken = yield select(userSelector.getAuthToken());
 
-    const { userId, types, languages, genres } = payload;
+    const { userId, types, languages, genres, q } = payload;
 
     const requestURL = urls.GET_ALL_SHOWS;
 
@@ -41,12 +42,14 @@ function* getAllShowsWorker({ payload }) {
       ...(languages &&
         languages.length > 0 && { languages: languages.join(',') }),
       ...(genres && genres.length > 0 && { genres: genres.join(',') }),
+      ...(q && q !== '' && { q }),
     };
 
     const isFilterApiCall =
       (types && types.length > 0) ||
       (languages && languages.length > 0) ||
-      (genres && genres.length > 0);
+      (genres && genres.length > 0) ||
+      (q && q !== '');
 
     const response = yield axios.get(requestURL, { headers, params });
 
@@ -181,7 +184,7 @@ function* downvoteShowWorker({ payload }) {
  */
 
 function* getAllShowsWatcher() {
-  yield takeLatest(actions.SHOWS.GET_ALL_SHOWS, getAllShowsWorker);
+  yield debounce(600, actions.SHOWS.GET_ALL_SHOWS, getAllShowsWorker);
 }
 
 function* addShowWatcher() {

@@ -5,10 +5,11 @@ export function getAllShows({
   types = null,
   languages = null,
   genres = null,
+  q = null,
 } = {}) {
   return {
     type: SHOWS.GET_ALL_SHOWS,
-    payload: { userId, types, languages, genres },
+    payload: { userId, types, languages, genres, q },
   };
 }
 
