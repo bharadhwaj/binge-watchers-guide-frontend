@@ -50,6 +50,9 @@ export const STATIC = {
   UPDATE_TYPE_DATA: 'bwg/Static/UPDATE_TYPE_DATA',
   UPDATE_LANGUAGE_DATA: 'bwg/Static/UPDATE_LANGUAGE_DATA',
   UPDATE_GENRE_DATA: 'bwg/Static/UPDATE_GENRE_DATA',
+  ADD_FILTER: 'bwg/Static/ADD_FILTER',
+  REMOVE_FILTER: 'bwg/Static/REMOVE_FILTER',
+  RESET_FILTERS: 'bwg/Static/RESET_FILTERS',
 };
 
 // ------------------ SHOWS ACTIONS ------------------ //

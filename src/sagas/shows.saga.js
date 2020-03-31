@@ -5,14 +5,13 @@ import {
   put,
   select,
   takeEvery,
-  takeLatest,
 } from '@redux-saga/core/effects';
 
 import { loadingAction, showsAction, toastAction } from '../actions';
 
 import { actions, urls, utils } from '../constants';
 
-import { userSelector } from '../selectors';
+import { staticSelector, userSelector } from '../selectors';
 
 import handleError from '../utils/errorHandler';
 
@@ -21,13 +20,15 @@ import handleError from '../utils/errorHandler';
  * -----------------------------------------
  */
 
-function* getAllShowsWorker({ payload }) {
+function* getAllShowsWorker() {
   try {
     handleError(axios);
 
     const authToken = yield select(userSelector.getAuthToken());
 
-    const { userId, types, languages, genres, q } = payload;
+    const filters = yield select(staticSelector.getFilters());
+
+    const { userId, types, languages, genres, q } = filters;
 
     const requestURL = urls.GET_ALL_SHOWS;
 

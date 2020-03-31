@@ -42,6 +42,7 @@ const FilterAreaMobile = props => {
 
       <Dialog
         open={openFilterArea}
+        keepMounted={false}
         TransitionComponent={SlideTransition}
         fullScreen
         maxWidth="sm"

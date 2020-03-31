@@ -3,6 +3,7 @@ import { push } from 'connected-react-router';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
+import Chip from '@material-ui/core/Chip';
 import Grid from '@material-ui/core/Grid';
 import Hidden from '@material-ui/core/Hidden';
 
@@ -22,6 +23,7 @@ import {
   toastAction,
   userAction,
 } from '../actions';
+import { utils } from '../constants';
 import {
   loadingSelector,
   showsSelector,
@@ -44,6 +46,20 @@ class IndexPage extends Component {
     this.setState({ loginPopupState: popupState });
   };
 
+  handleOnDeleteValue = value => {
+    const { removeFilter, getAllShows } = this.props;
+
+    if (value.type === utils.FILTER_TYPES.TYPE) {
+      removeFilter({ type: value._id });
+    } else if (value.type === utils.FILTER_TYPES.LANGUAGE) {
+      removeFilter({ language: value._id });
+    } else if (value.type === utils.FILTER_TYPES.GENRE) {
+      removeFilter({ genre: value._id });
+    }
+
+    getAllShows();
+  };
+
   componentDidMount() {
     const { getAllStatics, getAllShows, userId } = this.props;
 
@@ -56,6 +72,9 @@ class IndexPage extends Component {
       redirectToPage,
       requestToShowToast,
       getAllShows,
+      addFilter,
+      removeFilter,
+      resetFilter,
       checkForUsername,
       onRegisterSubmit,
       onLoginSubmit,
@@ -77,10 +96,24 @@ class IndexPage extends Component {
       languages,
       genres,
       shows,
+      appliedFilters,
     } = this.props;
 
     const { loginPopupState } = this.state;
 
+    const filterChipComponent =
+      appliedFilters &&
+      appliedFilters.length > 0 &&
+      appliedFilters.map(value => (
+        <Chip
+          key={value._id + ' ' + value.type}
+          variant="outlined"
+          color="primary"
+          label={value.name}
+          onDelete={() => this.handleOnDeleteValue(value)}
+          style={{ padding: '.25rem', margin: '.5rem' }}
+        />
+      ));
     return (
       <>
         {isGetStaticsLoading ? (
@@ -97,6 +130,8 @@ class IndexPage extends Component {
                 onRegisterSubmit={onRegisterSubmit}
                 onLoginSubmit={onLoginSubmit}
                 onAddShowSubmit={onAddShowSubmit}
+                getAllShows={getAllShows}
+                addFilter={addFilter}
                 logoutUser={logoutUser}
                 isSubmitLoginLoading={isSubmitLoginLoading}
                 isSubmitRegisterLoading={isSubmitRegisterLoading}
@@ -115,16 +150,27 @@ class IndexPage extends Component {
               <Hidden mdUp>
                 <Grid container justify="center" style={{ paddingTop: '1rem' }}>
                   <Grid item xs={8}>
-                    <Search />
+                    <Search getAllShows={getAllShows} addFilter={addFilter} />
                   </Grid>
                   <Grid item xs={12}>
                     <FilterAreaMobile
                       userId={userId}
                       getAllShows={getAllShows}
+                      addFilter={addFilter}
+                      removeFilter={removeFilter}
+                      resetFilter={resetFilter}
+                      appliedFilters={appliedFilters}
                       types={types}
                       languages={languages}
                       genres={genres}
                     />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Grid container justify="center">
+                      <Grid item xs={10}>
+                        {filterChipComponent}
+                      </Grid>
+                    </Grid>
                   </Grid>
                 </Grid>
               </Hidden>
@@ -159,6 +205,10 @@ class IndexPage extends Component {
                   <FilterAreaWeb
                     userId={userId}
                     getAllShows={getAllShows}
+                    addFilter={addFilter}
+                    removeFilter={removeFilter}
+                    resetFilter={resetFilter}
+                    appliedFilters={appliedFilters}
                     types={types}
                     languages={languages}
                     genres={genres}
@@ -181,8 +231,17 @@ const mapDispatchToProps = dispatch => ({
     dispatch(loadingAction.startGetStaticsLoading());
     return dispatch(staticAction.getAllStatics());
   },
-  getAllShows: filter => {
-    return dispatch(showsAction.getAllShows(filter));
+  getAllShows: () => {
+    return dispatch(showsAction.getAllShows());
+  },
+  addFilter: filter => {
+    return dispatch(staticAction.addFilter(filter));
+  },
+  removeFilter: filter => {
+    return dispatch(staticAction.removeFilter(filter));
+  },
+  resetFilter: () => {
+    return dispatch(staticAction.resetFilter());
   },
   requestToShowToast: (variant, message) => {
     return dispatch(toastAction.requestToShowToast(variant, message));
@@ -237,6 +296,7 @@ const mapStateToProps = createStructuredSelector({
   languages: staticSelector.getAllLanguages(),
   genres: staticSelector.getAllGenres(),
   shows: showsSelector.getAllShows(),
+  appliedFilters: staticSelector.getAppliedFilters(),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(IndexPage);
