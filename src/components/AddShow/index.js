@@ -56,11 +56,15 @@ const AddShow = props => {
   };
 
   const checkUrlValue = event => {
-    if (regex.URL.test(event.target.value) || event.target.value === '') {
+    if (
+      regex.URL.test(event.target.value.trim()) ||
+      event.target.value.trim() === ''
+    ) {
       setUrlError(false);
     } else {
       setUrlError(true);
     }
+    setUrlValue(event.target.value.trim());
   };
 
   const handleTypeSelect = event => {

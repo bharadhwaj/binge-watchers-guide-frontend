@@ -63,7 +63,7 @@ const Login = props => {
 
   const handleLoginSubmit = event => {
     event.preventDefault();
-    onLoginSubmit(username, password);
+    onLoginSubmit(username.trim(), password);
   };
 
   const handleRegisterClick = event => {

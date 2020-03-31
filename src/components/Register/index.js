@@ -90,7 +90,7 @@ const Register = props => {
 
   const handleRegisterSubmit = event => {
     event.preventDefault();
-    onRegisterSubmit(username, password);
+    onRegisterSubmit(username.trim(), password);
   };
 
   const handleLoginClick = event => {
