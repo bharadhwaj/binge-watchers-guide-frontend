@@ -15,6 +15,7 @@ import OpenInNewRoundedIcon from '@material-ui/icons/OpenInNewRounded';
 import { useTheme, makeStyles } from '@material-ui/core/styles';
 
 import style from './style';
+import { getCompleteUrl } from '../../utils/lib';
 
 const MovieDescriptionCard = props => {
   const classes = makeStyles(style)();
@@ -48,7 +49,7 @@ const MovieDescriptionCard = props => {
               color="default"
               endIcon={!isMobileView && <OpenInNewRoundedIcon />}
               disableElevation
-              onClick={() => window.open(url, '_blank')}
+              onClick={() => window.open(getCompleteUrl(url), '_blank')}
             >
               {isMobileView ? <OpenInNewRoundedIcon /> : 'Watch'}
             </Button>

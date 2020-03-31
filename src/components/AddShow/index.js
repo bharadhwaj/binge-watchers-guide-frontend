@@ -55,16 +55,13 @@ const AddShow = props => {
     setUrlValue(event.target.value);
   };
 
-  const checkUrlValue = event => {
-    if (
-      regex.URL.test(event.target.value.trim()) ||
-      event.target.value.trim() === ''
-    ) {
+  const checkUrlValue = () => {
+    if (new RegExp(regex.URL).test(url.trim()) || url.trim() === '') {
       setUrlError(false);
     } else {
       setUrlError(true);
     }
-    setUrlValue(event.target.value.trim());
+    setUrlValue(url.trim());
   };
 
   const handleTypeSelect = event => {
@@ -128,7 +125,7 @@ const AddShow = props => {
                   placeholder=""
                   value={url}
                   onChange={handleUrlTyping}
-                  onBlur={checkUrlValue}
+                  onBlur={() => checkUrlValue()}
                   error={urlError}
                   helperText={urlError && 'Invalid URL format.'}
                   InputLabelProps={{ shrink: true }}
