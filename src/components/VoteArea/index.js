@@ -2,6 +2,7 @@ import React from 'react';
 import clsx from 'clsx';
 
 import Grid from '@material-ui/core/Grid';
+import Grow from '@material-ui/core/Grow';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 
@@ -34,6 +35,7 @@ const VoteArea = props => {
   const votes = upvotes - downvotes;
 
   const [expandedView, setExpandedView] = React.useState(false);
+  const [shortView, setShortView] = React.useState(true);
 
   const onUpvote = () => {
     if (isUserLoggedIn) {
@@ -60,27 +62,35 @@ const VoteArea = props => {
   };
 
   const toggleExpandedView = () => {
-    setExpandedView(!expandedView);
+    if (expandedView) {
+      setExpandedView(!expandedView);
+      setTimeout(() => setShortView(expandedView), 500);
+    } else {
+      setShortView(expandedView);
+      setTimeout(() => setExpandedView(!expandedView), 500);
+    }
   };
 
   const expandedVoteArea = (
     <>
-      <Grid container>
-        <Grid className={classes.upvoted} item xs={12}>
-          <Grid container justify="flex-end">
-            <Typography variant="h6">{'+ ' + upvotes}</Typography>
+      <Grow in={expandedView} timeout={500}>
+        <Grid container>
+          <Grid className={classes.upvoted} item xs={12}>
+            <Grid container justify="flex-end">
+              <Typography variant="h6">{'+ ' + upvotes}</Typography>
+            </Grid>
           </Grid>
-        </Grid>
-        <Grid item xs={12}>
-          <Divider className={classes.voteExpandedDivider} />
-        </Grid>
+          <Grid item xs={12}>
+            <Divider className={classes.voteExpandedDivider} />
+          </Grid>
 
-        <Grid className={classes.downvoted} item xs={12}>
-          <Grid container justify="flex-end">
-            <Typography variant="h6">{'- ' + downvotes}</Typography>
+          <Grid className={classes.downvoted} item xs={12}>
+            <Grid container justify="flex-end">
+              <Typography variant="h6">{'- ' + downvotes}</Typography>
+            </Grid>
           </Grid>
         </Grid>
-      </Grid>
+      </Grow>
     </>
   );
 
@@ -100,13 +110,18 @@ const VoteArea = props => {
       <Grid className={classes.element} item xs={12}>
         <Grid container justify="flex-end">
           <IconButton
+            disableRipple
+            disableTouchRipple
+            disableFocusRipple
             className={clsx(expandedView ? classes.voteExpanded : classes.vote)}
             onClick={toggleExpandedView}
           >
             {expandedView ? (
               expandedVoteArea
             ) : (
-              <Typography variant="h6">{votes}</Typography>
+              <Grow in={shortView} timeout={500}>
+                <Typography variant="h6">{votes}</Typography>
+              </Grow>
             )}
           </IconButton>
         </Grid>
