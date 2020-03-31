@@ -17,19 +17,11 @@ import style from './style';
 import { utils } from '../../constants';
 
 const FilterArea = props => {
+  const { types, languages, genres, appliedFilters } = props;
+
+  console.log('appliedFilters: ', appliedFilters);
+
   const classes = makeStyles(style)();
-
-  const [allFilterValues, setFilterValues] = React.useState([]);
-
-  const [types, setTypes] = React.useState({});
-  const [languages, setLanguages] = React.useState({});
-  const [genres, setGenres] = React.useState({});
-
-  React.useEffect(() => {
-    setTypes(props.types);
-    setLanguages(props.languages);
-    setGenres(props.genres);
-  }, [props.types, props.languages, props.genres]);
 
   const [typeExpanded, setTypeExpansion] = React.useState(true);
   const [languageExpanded, setLanguageExpansion] = React.useState(false);
@@ -46,121 +38,65 @@ const FilterArea = props => {
   };
 
   const handleOnCheckBoxClick = currentValue => () => {
-    if (!currentValue.isChecked) {
-      setFilterValues([
-        ...allFilterValues,
-        { ...currentValue, isChecked: true },
-      ]);
-    } else {
-      const newFilterValues = [...allFilterValues].filter(
-        value =>
-          value._id !== currentValue._id || value.type !== currentValue.type
-      );
-      setFilterValues(newFilterValues);
-    }
+    const { addFilter, removeFilter } = props;
 
     if (currentValue.type === utils.FILTER_TYPES.TYPE) {
-      setTypes({
-        ...types,
-        [currentValue._id]: {
-          ...currentValue,
-          isChecked: !currentValue.isChecked,
-        },
-      });
+      if (!currentValue.isChecked) {
+        addFilter({ type: currentValue._id });
+      } else {
+        removeFilter({ type: currentValue._id });
+      }
     } else if (currentValue.type === utils.FILTER_TYPES.LANGUAGE) {
-      setLanguages({
-        ...languages,
-        [currentValue._id]: {
-          ...currentValue,
-          isChecked: !currentValue.isChecked,
-        },
-      });
+      if (!currentValue.isChecked) {
+        addFilter({ language: currentValue._id });
+      } else {
+        removeFilter({ language: currentValue._id });
+      }
     } else if (currentValue.type === utils.FILTER_TYPES.GENRE) {
-      setGenres({
-        ...genres,
-        [currentValue._id]: {
-          ...currentValue,
-          isChecked: !currentValue.isChecked,
-        },
-      });
+      if (!currentValue.isChecked) {
+        addFilter({ genre: currentValue._id });
+      } else {
+        removeFilter({ genre: currentValue._id });
+      }
     }
   };
 
   const handleOnDeleteValue = currentValue => () => {
-    const newFilterValues = [...allFilterValues].filter(
-      value =>
-        value._id !== currentValue._id || value.type !== currentValue.type
-    );
-    setFilterValues(newFilterValues);
+    const { removeFilter } = props;
 
     if (currentValue.type === utils.FILTER_TYPES.TYPE) {
-      const newTypes = {
-        ...types,
-        [currentValue._id]: { ...currentValue, isChecked: false },
-      };
-      setTypes(newTypes);
+      removeFilter({ type: currentValue._id });
     } else if (currentValue.type === utils.FILTER_TYPES.LANGUAGE) {
-      const newLanguages = {
-        ...languages,
-        [currentValue._id]: { ...currentValue, isChecked: false },
-      };
-      setLanguages(newLanguages);
+      removeFilter({ language: currentValue._id });
     } else if (currentValue.type === utils.FILTER_TYPES.GENRE) {
-      const newGenres = {
-        ...genres,
-        [currentValue._id]: { ...currentValue, isChecked: false },
-      };
-      setGenres(newGenres);
+      removeFilter({ genre: currentValue._id });
     }
   };
 
   const handleResetFilter = () => {
-    const { getAllShows, userId } = props;
-
-    setFilterValues([]);
-    setTypes(props.types || {});
-    setLanguages(props.languages || {});
-    setGenres(props.genres || {});
-    getAllShows({ userId });
+    const { resetFilter } = props;
+    resetFilter();
   };
 
   const applyFilter = () => {
-    const { getAllShows, userId, handleCloseFilterArea } = props;
-
-    const typesList = [];
-    const languagesList = [];
-    const genresList = [];
-
-    for (let value of allFilterValues) {
-      if (value.type === utils.FILTER_TYPES.TYPE) {
-        typesList.push(value._id);
-      } else if (value.type === utils.FILTER_TYPES.LANGUAGE) {
-        languagesList.push(value._id);
-      } else if (value.type === utils.FILTER_TYPES.GENRE) {
-        genresList.push(value._id);
-      }
-    }
-
-    getAllShows({
-      userId,
-      types: typesList,
-      languages: languagesList,
-      genres: genresList,
-    });
-
+    const { getAllShows, handleCloseFilterArea } = props;
+    getAllShows();
     handleCloseFilterArea && handleCloseFilterArea();
   };
 
-  const filterChipComponent = allFilterValues.map(value => (
-    <Chip
-      className={classes.chips}
-      key={value._id + ' ' + value.type}
-      variant="outlined"
-      color="primary"
-      label={value.name}
-      onDelete={handleOnDeleteValue(value)}
-    />
-  ));
+  const filterChipComponent =
+    appliedFilters &&
+    appliedFilters.length > 0 &&
+    appliedFilters.map(value => (
+      <Chip
+        className={classes.chips}
+        key={value._id + ' ' + value.type}
+        variant="outlined"
+        color="primary"
+        label={value.name}
+        onDelete={handleOnDeleteValue(value)}
+      />
+    ));
 
   return (
     <>
@@ -170,12 +106,12 @@ const FilterArea = props => {
             <Typography variant="h6">Filters</Typography>
           </Grid>
 
-          {allFilterValues && allFilterValues.length > 0 && (
+          {appliedFilters && appliedFilters.length > 0 && (
             <Grid item xs={4}>
               <Button
                 color="primary"
                 fullWidth
-                disabled={allFilterValues && allFilterValues.length < 1}
+                disabled={appliedFilters && appliedFilters.length < 1}
                 onClick={handleResetFilter}
               >
                 Clear All
@@ -188,7 +124,7 @@ const FilterArea = props => {
           {filterChipComponent}
         </Paper>
 
-        {allFilterValues && allFilterValues.length > 0 && (
+        {appliedFilters && appliedFilters.length > 0 && (
           <>
             <Hidden smDown>
               <Grid item md={5}>
@@ -196,7 +132,7 @@ const FilterArea = props => {
                   variant="contained"
                   color="primary"
                   fullWidth
-                  disabled={allFilterValues && allFilterValues.length < 1}
+                  disabled={appliedFilters && appliedFilters.length < 1}
                   onClick={applyFilter}
                 >
                   Apply
@@ -211,7 +147,7 @@ const FilterArea = props => {
                     color="primary"
                     variant="contained"
                     fullWidth
-                    disabled={allFilterValues && allFilterValues.length < 1}
+                    disabled={appliedFilters && appliedFilters.length < 1}
                     onClick={applyFilter}
                   >
                     Apply

@@ -10,13 +10,13 @@ import SearchIcon from '@material-ui/icons/Search';
 import style from './style';
 
 const Search = props => {
-  const { getAllShows } = props;
+  const { getAllShows, addFilter } = props;
 
   const classes = makeStyles(style)();
 
   const onTypingInSearch = event => {
-    console.log('I AM HERE --- ', event.target.value);
-    getAllShows({ q: event.target.value });
+    addFilter({ q: event.target.value || '' });
+    getAllShows();
   };
 
   return (

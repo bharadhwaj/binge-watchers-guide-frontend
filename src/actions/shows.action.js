@@ -1,15 +1,8 @@
 import { SHOWS } from '../constants/actions';
 
-export function getAllShows({
-  userId = null,
-  types = null,
-  languages = null,
-  genres = null,
-  q = null,
-} = {}) {
+export function getAllShows() {
   return {
     type: SHOWS.GET_ALL_SHOWS,
-    payload: { userId, types, languages, genres, q },
   };
 }
 
