@@ -20,6 +20,7 @@ import AddShow from '../AddShow';
 import ElevationScroll from '../ElevationScroll';
 import Login from '../Login';
 import Register from '../Register';
+import Search from '../Search';
 import SlideTransition from '../SlideTransition';
 
 import style from './style';
@@ -123,6 +124,11 @@ const Navbar = props => {
               </Grid>
               <Grid item>
                 <Grid container justify="space-between" alignItems="center">
+                  {!isMobileView && (
+                    <Grid item xs>
+                      <Search />
+                    </Grid>
+                  )}
                   <Grid item xs>
                     {isMobileView ? (
                       <IconButton onClick={handleOpenAddShowPopup}>

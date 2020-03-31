@@ -11,6 +11,7 @@ import FilterAreaWeb from '../components/FilterAreaWeb';
 import Loading from '../components/Loading';
 import MovieDescription from '../components/MovieDescription';
 import Navbar from '../components/Navbar';
+import Search from '../components/Search';
 
 import {
   loadingAction,
@@ -111,14 +112,19 @@ class IndexPage extends Component {
 
             <Grid container justify="flex-start">
               <Hidden mdUp>
-                <Grid item xs={12}>
-                  <FilterAreaMobile
-                    userId={userId}
-                    getAllShows={getAllShows}
-                    types={types}
-                    languages={languages}
-                    genres={genres}
-                  />
+                <Grid container justify="center" style={{ paddingTop: '1rem' }}>
+                  <Grid item xs={8}>
+                    <Search />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <FilterAreaMobile
+                      userId={userId}
+                      getAllShows={getAllShows}
+                      types={types}
+                      languages={languages}
+                      genres={genres}
+                    />
+                  </Grid>
                 </Grid>
               </Hidden>
               <Grid item xs={12} md={8}>
