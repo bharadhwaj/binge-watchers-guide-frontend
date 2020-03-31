@@ -13,6 +13,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import style from './style';
 
 import { utils } from '../../constants';
+import { Divider } from '@material-ui/core';
 
 const VoteArea = props => {
   const classes = makeStyles(style)();
@@ -31,6 +32,8 @@ const VoteArea = props => {
   } = props;
 
   const votes = upvotes - downvotes;
+
+  const [expandedView, setExpandedView] = React.useState(false);
 
   const onUpvote = () => {
     if (isUserLoggedIn) {
@@ -56,6 +59,31 @@ const VoteArea = props => {
     }
   };
 
+  const toggleExpandedView = () => {
+    setExpandedView(!expandedView);
+  };
+
+  const expandedVoteArea = (
+    <>
+      <Grid container>
+        <Grid className={classes.upvoted} item xs={12}>
+          <Grid container justify="flex-end">
+            <Typography variant="h6">{'+ ' + upvotes}</Typography>
+          </Grid>
+        </Grid>
+        <Grid item xs={12}>
+          <Divider className={classes.voteExpandedDivider} />
+        </Grid>
+
+        <Grid className={classes.downvoted} item xs={12}>
+          <Grid container justify="flex-end">
+            <Typography variant="h6">{'- ' + downvotes}</Typography>
+          </Grid>
+        </Grid>
+      </Grid>
+    </>
+  );
+
   return (
     <>
       <Grid className={classes.element} item xs={12}>
@@ -71,9 +99,16 @@ const VoteArea = props => {
 
       <Grid className={classes.element} item xs={12}>
         <Grid container justify="flex-end">
-          <Typography className={classes.vote} variant="h6">
-            {votes}
-          </Typography>
+          <IconButton
+            className={clsx(expandedView ? classes.voteExpanded : classes.vote)}
+            onClick={toggleExpandedView}
+          >
+            {expandedView ? (
+              expandedVoteArea
+            ) : (
+              <Typography variant="h6">{votes}</Typography>
+            )}
+          </IconButton>
         </Grid>
       </Grid>
 

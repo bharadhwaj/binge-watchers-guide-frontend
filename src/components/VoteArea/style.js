@@ -12,7 +12,16 @@ const style = theme => ({
     color: theme.palette.error.light,
   },
   vote: {
-    marginRight: '1rem',
+    marginRight: '.75rem',
+  },
+  voteExpanded: {
+    marginRight: '.5rem',
+  },
+  voteExpandedDivider: {
+    marginTop: '.25rem',
+    marginBotton: '.25rem',
+    marginLeft: '1.25rem',
+    marginRight: '-1rem',
   },
 });
 
