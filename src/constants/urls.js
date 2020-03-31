@@ -11,3 +11,4 @@ export const ADD_SHOWS = `${BASE_URL}/users/<USER_ID>/shows`;
 
 export const UPVOTE_SHOW = `${BASE_URL}/users/<USER_ID>/shows/<SHOW_ID>/upvote`;
 export const DOWNVOTE_SHOW = `${BASE_URL}/users/<USER_ID>/shows/<SHOW_ID>/downvote`;
+export const DELETE_SHOW = `${BASE_URL}/users/<USER_ID>/shows/<SHOW_ID>`;

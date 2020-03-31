@@ -81,6 +81,7 @@ class IndexPage extends Component {
       onAddShowSubmit,
       onUpvoteShow,
       onDownvoteShow,
+      onDeleteShow,
       logoutUser,
       isGetStaticsLoading,
       isCheckUsernameLoading,
@@ -177,10 +178,12 @@ class IndexPage extends Component {
                 {shows.map(show => (
                   <MovieDescription
                     key={show._id}
+                    userId={userId}
                     isUserLoggedIn={isUserLoggedIn}
                     requestToShowToast={requestToShowToast}
                     onUpvoteShow={onUpvoteShow}
                     onDownvoteShow={onDownvoteShow}
+                    onDeleteShow={onDeleteShow}
                     loginPopupState={loginPopupState}
                     setLoginPopupState={this.setLoginPopupState}
                     {...show}
@@ -271,6 +274,10 @@ const mapDispatchToProps = dispatch => ({
   onDownvoteShow: (showId, isDownvote) => {
     dispatch(loadingAction.startVoteShowLoading());
     return dispatch(showsAction.downvoteShow(showId, isDownvote));
+  },
+  onDeleteShow: showId => {
+    dispatch(loadingAction.startDeleteShowLoading());
+    return dispatch(showsAction.deleteShow(showId));
   },
 });
 

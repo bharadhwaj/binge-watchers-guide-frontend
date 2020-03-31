@@ -55,3 +55,11 @@ export function startVoteShowLoading() {
 export function stopVoteShowLoading() {
   return { type: LOADING.STOP_VOTE_SHOW_LOADING };
 }
+
+export function startDeleteShowLoading() {
+  return { type: LOADING.START_DELETE_SHOW_LOADING };
+}
+
+export function stopDeleteShowLoading() {
+  return { type: LOADING.STOP_DELETE_SHOW_LOADING };
+}

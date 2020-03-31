@@ -29,3 +29,11 @@ export function upvoteShow(showId, isUpvote) {
 export function downvoteShow(showId, isDownvote) {
   return { type: SHOWS.DOWNVOTE_SHOW, payload: { showId, isDownvote } };
 }
+
+export function deleteShow(showId) {
+  return { type: SHOWS.DELETE_SHOW, payload: { showId } };
+}
+
+export function removeShow(show) {
+  return { type: SHOWS.REMOVE_SHOW, payload: { show } };
+}

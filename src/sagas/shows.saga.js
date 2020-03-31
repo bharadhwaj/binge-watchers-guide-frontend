@@ -179,6 +179,45 @@ function* downvoteShowWorker({ payload }) {
   }
 }
 
+function* deleteShowWorker({ payload }) {
+  try {
+    debugger;
+    handleError(axios);
+    const userId = yield select(userSelector.getCurrentUserId());
+
+    const authToken = yield select(userSelector.getAuthToken());
+
+    const { showId } = payload;
+
+    const requestURL = urls.DELETE_SHOW.replace(/<USER_ID>/, userId).replace(
+      /<SHOW_ID>/,
+      showId
+    );
+
+    const headers = {
+      'Content-Type': 'application/json',
+      Authorization: authToken,
+    };
+
+    const response = yield axios.delete(requestURL, { headers });
+
+    yield put(loadingAction.stopDeleteShowLoading());
+
+    if (response && response.status === 200) {
+      const { data } = response;
+      const { show } = data.data;
+      const { message } = data;
+      yield put(
+        toastAction.requestToShowToast(utils.MESSAGE_VARIANTS.SUCCESS, message)
+      );
+
+      yield put(showsAction.removeShow(show));
+    }
+  } catch (error) {
+    yield put(loadingAction.stopDeleteShowLoading());
+  }
+}
+
 /* -----------------------------------------
  *                 WATCHERS
  * -----------------------------------------
@@ -200,11 +239,16 @@ function* downvoteShowWatcher() {
   yield takeEvery(actions.SHOWS.DOWNVOTE_SHOW, downvoteShowWorker);
 }
 
+function* deleteShowWatcher() {
+  yield takeEvery(actions.SHOWS.DELETE_SHOW, deleteShowWorker);
+}
+
 export default function* showsSaga() {
   yield all([
     getAllShowsWatcher(),
     addShowWatcher(),
     upvoteShowWatcher(),
     downvoteShowWatcher(),
+    deleteShowWatcher(),
   ]);
 }

@@ -40,6 +40,14 @@ export default function staticReducer(state = initialState, action) {
       };
     }
 
+    case SHOWS.REMOVE_SHOW:
+      return {
+        ...state,
+        shows: [
+          ...state.shows.filter(item => item._id !== action.payload.show._id),
+        ],
+      };
+
     default:
       return { ...state };
   }
