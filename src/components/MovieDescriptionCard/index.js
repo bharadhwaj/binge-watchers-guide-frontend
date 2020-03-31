@@ -6,7 +6,6 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
 import Divider from '@material-ui/core/Divider';
 import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
@@ -95,7 +94,7 @@ const MovieDescriptionCard = props => {
                 color="default"
                 endIcon={!isMobileView && <OpenInNewRoundedIcon />}
                 disableElevation
-                onClick={() => window.open(url, '_blank')}
+                onClick={() => window.open(getCompleteUrl(url), '_blank')}
               >
                 {isMobileView ? <OpenInNewRoundedIcon /> : 'Watch'}
               </Button>
@@ -108,12 +107,6 @@ const MovieDescriptionCard = props => {
                 <MoreVertRoundedIcon />
               </IconButton>
             )}
-            {/* 
-              <DeleteIcon
-                className={classes.deleteIcon}
-                onClick={() => setDeleteShowPopupState(true)}
-              ></DeleteIcon>
-            */}
           </Grid>
         </Grid>
 
