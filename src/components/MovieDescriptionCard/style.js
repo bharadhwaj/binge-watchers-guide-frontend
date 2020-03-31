@@ -47,7 +47,7 @@ const style = theme => ({
   },
   deleteIcon: {
     color: '#8097A4',
-    marginTop: 6
+    marginTop: 6,
   },
   languageText: {
     marginLeft: '.75rem',
@@ -67,6 +67,9 @@ const style = theme => ({
   },
   genreTab: {
     marginLeft: '.75rem',
+  },
+  sideHamburger: {
+    marginLeft: '1rem',
   },
 });
 

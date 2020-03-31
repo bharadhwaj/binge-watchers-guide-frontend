@@ -4,10 +4,10 @@ import Card from '@material-ui/core/Card';
 import Divider from '@material-ui/core/Divider';
 import Grid from '@material-ui/core/Grid';
 
+import { makeStyles } from '@material-ui/core/styles';
+
 import MovieDescriptionCard from '../MovieDescriptionCard';
 import VoteArea from '../VoteArea';
-
-import { makeStyles } from '@material-ui/core/styles';
 
 import style from './style';
 

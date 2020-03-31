@@ -2,21 +2,27 @@ import React from 'react';
 
 import Button from '@material-ui/core/Button';
 import Chip from '@material-ui/core/Chip';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 import Divider from '@material-ui/core/Divider';
 import Grid from '@material-ui/core/Grid';
+import IconButton from '@material-ui/core/IconButton';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
 import Typography from '@material-ui/core/Typography';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
-import Dialog from '@material-ui/core/Dialog';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContentText from '@material-ui/core/DialogContentText';
 
 import CameraRollRoundedIcon from '@material-ui/icons/CameraRollRounded';
+import DeleteRoundedIcon from '@material-ui/icons/DeleteRounded';
 import LanguageRoundedIcon from '@material-ui/icons/LanguageRounded';
+import MoreVertRoundedIcon from '@material-ui/icons/MoreVertRounded';
 import MovieRoundedIcon from '@material-ui/icons/MovieRounded';
 import OpenInNewRoundedIcon from '@material-ui/icons/OpenInNewRounded';
-import DeleteIcon from '@material-ui/icons/Delete';
 
 import { useTheme, makeStyles } from '@material-ui/core/styles';
 
@@ -27,8 +33,19 @@ const MovieDescriptionCard = props => {
   const theme = useTheme();
   const isMobileView = useMediaQuery(theme.breakpoints.down('xs'));
 
-  const { name, _id, url, created_by, userId, language, type, genres, onDeleteShow } = props;
+  const {
+    name,
+    _id,
+    url,
+    created_by,
+    userId,
+    language,
+    type,
+    genres,
+    onDeleteShow,
+  } = props;
 
+  const [hamburgerElement, setHamburgerElement] = React.useState(null);
   const [deleteShowPopupState, setDeleteShowPopupState] = React.useState(false);
 
   const genreComponent =
@@ -44,32 +61,59 @@ const MovieDescriptionCard = props => {
       />
     ));
 
+  const handleHamburgerOpen = event => {
+    setHamburgerElement(event.currentTarget);
+  };
+
+  const handleHamburgerClose = () => {
+    setHamburgerElement(null);
+  };
+
   const handleDeleteShowSubmit = event => {
     event.preventDefault();
     onDeleteShow(_id);
+  };
+
+  const handleCancelDelete = () => {
+    setHamburgerElement(null);
+    setDeleteShowPopupState(false);
   };
 
   return (
     <>
       <Grid className={classes.descriptionArea}>
         <Grid className={classes.titleArea} container justify="space-between">
-          <Typography className={classes.title}>{name}</Typography>
-          {url && (
-            <Button
-              className={classes.watchButton}
-              variant="contained"
-              color="default"
-              endIcon={!isMobileView && <OpenInNewRoundedIcon />}
-              disableElevation
-              onClick={() => window.open(url, '_blank')}
-            >
-              {isMobileView ? <OpenInNewRoundedIcon /> : 'Watch'}
-            </Button>
-          )}
-          {
-            created_by === userId &&
-            <DeleteIcon className={classes.deleteIcon} onClick={() => setDeleteShowPopupState(true)}></DeleteIcon>
-          }
+          <Grid item>
+            <Typography className={classes.title}>{name}</Typography>
+          </Grid>
+          <Grid item>
+            {url && (
+              <Button
+                className={classes.watchButton}
+                variant="contained"
+                color="default"
+                endIcon={!isMobileView && <OpenInNewRoundedIcon />}
+                disableElevation
+                onClick={() => window.open(url, '_blank')}
+              >
+                {isMobileView ? <OpenInNewRoundedIcon /> : 'Watch'}
+              </Button>
+            )}
+            {created_by === userId && (
+              <IconButton
+                className={classes.sideHamburger}
+                onClick={handleHamburgerOpen}
+              >
+                <MoreVertRoundedIcon />
+              </IconButton>
+            )}
+            {/* 
+              <DeleteIcon
+                className={classes.deleteIcon}
+                onClick={() => setDeleteShowPopupState(true)}
+              ></DeleteIcon>
+            */}
+          </Grid>
         </Grid>
 
         <Divider />
@@ -117,21 +161,37 @@ const MovieDescriptionCard = props => {
           </Grid>
         </Grid>
       </Grid>
+
+      <Menu
+        id="hamburger-menu"
+        anchorEl={hamburgerElement}
+        keepMounted
+        open={Boolean(hamburgerElement)}
+        onClose={handleHamburgerClose}
+      >
+        <MenuItem onClick={() => setDeleteShowPopupState(true)}>
+          <ListItemIcon>
+            <DeleteRoundedIcon fontSize="small" />
+          </ListItemIcon>
+          <ListItemText primary="Delete" />
+        </MenuItem>
+      </Menu>
+
       <Dialog
         open={deleteShowPopupState}
         fullWidth
         maxWidth="sm"
         keepMounted={false}
-        onClose={() => setDeleteShowPopupState(false)}
+        onClose={handleCancelDelete}
       >
-        <DialogTitle id="confirmation-dialog-title">Delete</DialogTitle>
         <DialogContent>
+          <Typography variant="h5">Delete</Typography>
           <DialogContentText>
             Are you sure you want to delete the show ?
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button autoFocus onClick={() => setDeleteShowPopupState(false)} color="grey">
+          <Button autoFocus onClick={handleCancelDelete} color="grey">
             CANCEL
           </Button>
           <Button onClick={handleDeleteShowSubmit} color="primary" autoFocus>
