@@ -144,7 +144,7 @@ const Navbar = props => {
                           startIcon={<LibraryAddRoundedIcon />}
                           onClick={handleOpenAddShowPopup}
                         >
-                          Add your entry
+                          Add Show
                         </Button>
                       </Grid>
                     )}
