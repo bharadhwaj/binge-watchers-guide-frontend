@@ -11,6 +11,8 @@ import { makeStyles } from '@material-ui/core/styles';
 
 import style from './style';
 
+import { utils } from '../../constants';
+
 const SortArea = props => {
   const classes = makeStyles(style)();
 
@@ -43,11 +45,31 @@ const SortArea = props => {
               label="Sort by"
             >
               <MenuItem value={'-'}>Recently Added</MenuItem>
-              <MenuItem value={'created_at-asc'}>Oldest Post</MenuItem>
-              <MenuItem value={'popular-desc'}>Most Popular</MenuItem>
-              <MenuItem value={'popular-asc'}>Least Popular</MenuItem>
-              <MenuItem value={'vote-desc'}>Most Upvoted</MenuItem>
-              <MenuItem value={'vote-asc'}>Most Downvoted</MenuItem>
+              <MenuItem
+                value={`${utils.SORT_TYPES.CREATED_AT}-${utils.ORDER_TYPES.ASCENDING}`}
+              >
+                Oldest Post
+              </MenuItem>
+              <MenuItem
+                value={`${utils.SORT_TYPES.POPULAR}-${utils.ORDER_TYPES.DESCENDING}`}
+              >
+                Most Popular
+              </MenuItem>
+              <MenuItem
+                value={`${utils.SORT_TYPES.CREATED_AT}-${utils.ORDER_TYPES.ASCENDING}`}
+              >
+                Least Popular
+              </MenuItem>
+              <MenuItem
+                value={`${utils.SORT_TYPES.VOTE}-${utils.ORDER_TYPES.DESCENDING}`}
+              >
+                Most Upvoted
+              </MenuItem>
+              <MenuItem
+                value={`${utils.SORT_TYPES.VOTE}-${utils.ORDER_TYPES.ASCENDING}`}
+              >
+                Most Downvoted
+              </MenuItem>
             </Select>
           </FormControl>
         </Grid>
