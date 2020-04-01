@@ -159,6 +159,7 @@ const FilterArea = props => {
         <Divider className={classes.divider} />
 
         <ListFilters
+          type={utils.FILTER_TYPES.TYPE}
           title="Types"
           values={types}
           expanded={typeExpanded}
@@ -167,6 +168,7 @@ const FilterArea = props => {
         />
 
         <ListFilters
+          type={utils.FILTER_TYPES.LANGUAGE}
           title="Languages"
           values={languages}
           expanded={languageExpanded}
@@ -175,6 +177,7 @@ const FilterArea = props => {
         />
 
         <ListFilters
+          type={utils.FILTER_TYPES.GENRE}
           title="Genres"
           values={genres}
           expanded={genreExpanded}

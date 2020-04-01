@@ -17,15 +17,25 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { makeStyles } from '@material-ui/core/styles';
 
 import style from './style';
+import { utils } from '../../constants';
 
 const ListFilters = props => {
   const {
+    type,
     title,
     values,
     expanded,
     handleExpansion,
     handleOnCheckBoxClick,
   } = props;
+
+  let valuesList = Object.values(values);
+
+  if (type === utils.FILTER_TYPES.GENRE) {
+    valuesList = valuesList.sort((valueA, valueB) =>
+      valueA.name.toLowerCase().localeCompare(valueB.name.toLowerCase())
+    );
+  }
 
   const classes = makeStyles(style)();
 
@@ -42,7 +52,7 @@ const ListFilters = props => {
           </ExpansionPanelSummary>
           <ExpansionPanelDetails className={classes.expansionPanelBody}>
             <List className={classes.filterListArea}>
-              {Object.values(values).map(value => (
+              {valuesList.map(value => (
                 <ListItem
                   key={value._id}
                   role={undefined}
