@@ -1,0 +1,2 @@
+(this["webpackJsonpbinge-watchers-guide"]=this["webpackJsonpbinge-watchers-guide"]||[]).push([[3],{484:function(e,t,n){"use strict";n.r(t);var a=n(0),i=n.n(a),r=n(450),c=n(67);t.default=function(){return i.a.createElement(r.a,{container:!0,justify:"center"},i.a.createElement(c.a,{variant:"h1"},"Page not found!"))}}}]);
+//# sourceMappingURL=3.125ec510.chunk.js.map
