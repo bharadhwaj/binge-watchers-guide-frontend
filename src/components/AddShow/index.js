@@ -242,7 +242,14 @@ const AddShow = props => {
                   variant="outlined"
                   color="primary"
                   size="large"
-                  disabled={urlError || name === ''}
+                  disabled={
+                    urlError ||
+                    name === '' ||
+                    typeId === '' ||
+                    languageId === '' ||
+                    genreIds.length === 0 ||
+                    genreError
+                  }
                   onClick={handleAddShowSubmit}
                   fullWidth
                 >
