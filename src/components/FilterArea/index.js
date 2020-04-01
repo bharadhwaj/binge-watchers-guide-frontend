@@ -19,8 +19,6 @@ import { utils } from '../../constants';
 const FilterArea = props => {
   const { types, languages, genres, appliedFilters } = props;
 
-  console.log('appliedFilters: ', appliedFilters);
-
   const classes = makeStyles(style)();
 
   const [typeExpanded, setTypeExpansion] = React.useState(true);

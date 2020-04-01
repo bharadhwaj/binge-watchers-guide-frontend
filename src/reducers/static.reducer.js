@@ -81,8 +81,6 @@ export default function staticReducer(state = initialState, action) {
           ? [...state.appliedFilters]
           : [...state.appliedFilters, filterObj];
 
-      console.log('ADD HAS BEEN CALLED, ', filterObj, '---', newFilterData);
-
       return {
         ...state,
         appliedFilters: newFilterData,
@@ -110,8 +108,6 @@ export default function staticReducer(state = initialState, action) {
         : action.payload.genre
         ? state.genres[action.payload.genre]
         : null;
-
-      console.log('REMOVE HAS BEEN CALLED', filterObj);
 
       const newFilterData = state.appliedFilters.filter(
         data => data._id !== filterObj._id || data.type !== filterObj.type
