@@ -72,6 +72,7 @@ class IndexPage extends Component {
       redirectToPage,
       requestToShowToast,
       getAllShows,
+      setSortAndOrder,
       addFilter,
       removeFilter,
       resetFilter,
@@ -156,6 +157,7 @@ class IndexPage extends Component {
                     <FilterAreaMobile
                       userId={userId}
                       getAllShows={getAllShows}
+                      setSortAndOrder={setSortAndOrder}
                       addFilter={addFilter}
                       removeFilter={removeFilter}
                       resetFilter={resetFilter}
@@ -205,6 +207,7 @@ class IndexPage extends Component {
                   <FilterAreaWeb
                     userId={userId}
                     getAllShows={getAllShows}
+                    setSortAndOrder={setSortAndOrder}
                     addFilter={addFilter}
                     removeFilter={removeFilter}
                     resetFilter={resetFilter}
@@ -233,6 +236,9 @@ const mapDispatchToProps = dispatch => ({
   },
   getAllShows: () => {
     return dispatch(showsAction.getAllShows());
+  },
+  setSortAndOrder: (sort, order) => {
+    return dispatch(showsAction.setSortAndOrder(sort, order));
   },
   addFilter: filter => {
     return dispatch(staticAction.addFilter(filter));

@@ -58,6 +58,7 @@ export const STATIC = {
 // ------------------ SHOWS ACTIONS ------------------ //
 export const SHOWS = {
   GET_ALL_SHOWS: 'bwg/Shows/GET_ALL_SHOWS',
+  SET_SORT_AND_ORDER: 'bwg/Shows/SET_SORT_AND_ORDER',
   ADD_SHOW: 'bwg/Shows/ADD_SHOW',
   APPEND_SHOWS: 'bwg/Shows/APPEND_SHOWS',
   REMOVE_SHOW: 'bwg/Shows/REMOVE_SHOW',
