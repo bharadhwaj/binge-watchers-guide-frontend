@@ -6,6 +6,16 @@ export function getAllShows() {
   };
 }
 
+export function setSortAndOrder(sort = null, order = null) {
+  sort = sort !== '' ? sort : null;
+  order = order !== '' ? order : null;
+
+  return {
+    type: SHOWS.SET_SORT_AND_ORDER,
+    payload: { sort, order },
+  };
+}
+
 export function addShow(show) {
   return { type: SHOWS.ADD_SHOW, payload: { show } };
 }

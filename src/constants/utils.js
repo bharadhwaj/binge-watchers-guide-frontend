@@ -19,3 +19,14 @@ export const FILTER_TYPES = {
   LANGUAGE: 'LANGUAGE',
   GENRE: 'GENRE',
 };
+
+export const SORT_TYPES = {
+  CREATED_AT: 'created_at',
+  POPULAR: 'popular',
+  VOTE: 'vote',
+};
+
+export const ORDER_TYPES = {
+  ASCENDING: 'asc',
+  DESCENDING: 'desc',
+};

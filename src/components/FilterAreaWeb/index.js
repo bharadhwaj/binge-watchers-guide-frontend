@@ -6,6 +6,7 @@ import CardContent from '@material-ui/core/CardContent';
 import { makeStyles } from '@material-ui/core/styles';
 
 import FilterArea from '../FilterArea';
+import SortArea from '../SortArea';
 
 import style from './style';
 
@@ -16,6 +17,7 @@ const FilterAreaWeb = props => {
     <>
       <Card className={classes.filterArea}>
         <CardContent>
+          <SortArea {...props} />
           <FilterArea {...props} />
         </CardContent>
       </Card>

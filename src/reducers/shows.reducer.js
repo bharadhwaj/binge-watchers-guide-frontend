@@ -2,6 +2,8 @@ import { SHOWS } from '../constants/actions';
 
 const initialState = {
   shows: [],
+  sort: null,
+  order: null,
 };
 
 export default function staticReducer(state = initialState, action) {
@@ -20,6 +22,13 @@ export default function staticReducer(state = initialState, action) {
         shows: [...mergedShows],
       };
     }
+
+    case SHOWS.SET_SORT_AND_ORDER:
+      return {
+        ...state,
+        sort: action.payload.sort,
+        order: action.payload.order,
+      };
 
     case SHOWS.UPDATE_SHOWS:
       return {

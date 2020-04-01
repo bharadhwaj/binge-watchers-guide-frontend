@@ -11,7 +11,7 @@ import { loadingAction, showsAction, toastAction } from '../actions';
 
 import { actions, urls, utils } from '../constants';
 
-import { staticSelector, userSelector } from '../selectors';
+import { showsSelector, staticSelector, userSelector } from '../selectors';
 
 import handleError from '../utils/errorHandler';
 
@@ -27,6 +27,7 @@ function* getAllShowsWorker() {
     const authToken = yield select(userSelector.getAuthToken());
 
     const filters = yield select(staticSelector.getFilters());
+    const { sort, order } = yield select(showsSelector.getSortAndOrder());
 
     const { user_id, types, languages, genres, q } = filters;
 
@@ -38,19 +39,23 @@ function* getAllShowsWorker() {
     };
 
     const params = {
-      ...(user_id && { user_id: user_id }),
+      ...(user_id && { user_id }),
       ...(types && types.length > 0 && { types: types.join(',') }),
       ...(languages &&
         languages.length > 0 && { languages: languages.join(',') }),
       ...(genres && genres.length > 0 && { genres: genres.join(',') }),
       ...(q && q !== '' && { q }),
+      ...(sort && { sort }),
+      ...(order && { order }),
     };
 
     const isFilterApiCall =
       (types && types.length > 0) ||
       (languages && languages.length > 0) ||
       (genres && genres.length > 0) ||
-      (q && q !== '');
+      (q && q !== '') ||
+      sort ||
+      order;
 
     const response = yield axios.get(requestURL, { headers, params });
 

@@ -12,6 +12,7 @@ import FilterListRoundedIcon from '@material-ui/icons/FilterListRounded';
 
 import FilterArea from '../FilterArea';
 import SlideTransition from '../SlideTransition';
+import SortArea from '../SortArea';
 
 const FilterAreaMobile = props => {
   const [openFilterArea, setFilterAreaState] = React.useState(false);
@@ -27,6 +28,9 @@ const FilterAreaMobile = props => {
   return (
     <>
       <Grid container justify="center">
+        <Grid item xs={8}>
+          <SortArea {...props} />
+        </Grid>
         <Grid item xs={8}>
           <Button
             color="primary"
