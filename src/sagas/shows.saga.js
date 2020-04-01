@@ -29,7 +29,7 @@ function* getAllShowsWorker() {
     const filters = yield select(staticSelector.getFilters());
     const { sort, order } = yield select(showsSelector.getSortAndOrder());
 
-    const { userId, types, languages, genres, q } = filters;
+    const { user_id, types, languages, genres, q } = filters;
 
     const requestURL = urls.GET_ALL_SHOWS;
 
@@ -39,7 +39,7 @@ function* getAllShowsWorker() {
     };
 
     const params = {
-      ...(userId && { user_id: userId }),
+      ...(user_id && { user_id }),
       ...(types && types.length > 0 && { types: types.join(',') }),
       ...(languages &&
         languages.length > 0 && { languages: languages.join(',') }),
