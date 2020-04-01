@@ -56,7 +56,7 @@ const SortArea = props => {
                 Most Popular
               </MenuItem>
               <MenuItem
-                value={`${utils.SORT_TYPES.CREATED_AT}-${utils.ORDER_TYPES.ASCENDING}`}
+                value={`${utils.SORT_TYPES.POPULAR}-${utils.ORDER_TYPES.ASCENDING}`}
               >
                 Least Popular
               </MenuItem>
