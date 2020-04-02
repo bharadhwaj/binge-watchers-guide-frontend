@@ -54,6 +54,9 @@ export const getAllGenres = () =>
     return newGenres;
   });
 
+export const getSearchText = () =>
+  createSelector(selectFilter, filter => filter.q);
+
 export const getFilters = () =>
   createSelector(selectFilter, filterState => filterState);
 

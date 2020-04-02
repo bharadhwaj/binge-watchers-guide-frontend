@@ -47,6 +47,7 @@ const Navbar = props => {
     loginPopupState,
     setLoginPopupState,
     username,
+    searchText,
     types,
     languages,
     genres,
@@ -128,7 +129,11 @@ const Navbar = props => {
                 <Grid container justify="space-between" alignItems="center">
                   {!isMobileView && (
                     <Grid item xs>
-                      <Search getAllShows={getAllShows} addFilter={addFilter} />
+                      <Search
+                        getAllShows={getAllShows}
+                        addFilter={addFilter}
+                        searchText={searchText}
+                      />
                     </Grid>
                   )}
                   <Grid item xs>

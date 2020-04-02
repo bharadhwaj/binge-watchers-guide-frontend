@@ -10,7 +10,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import style from './style';
 
 const Search = props => {
-  const { getAllShows, addFilter } = props;
+  const { getAllShows, addFilter, searchText } = props;
 
   const classes = makeStyles(style)();
 
@@ -26,6 +26,7 @@ const Search = props => {
       </Grid>
       <InputBase
         onChange={onTypingInSearch}
+        value={searchText}
         placeholder="Search…"
         classes={{
           root: classes.inputRoot,

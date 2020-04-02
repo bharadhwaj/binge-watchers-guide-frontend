@@ -93,6 +93,7 @@ class IndexPage extends Component {
       isValidUsername,
       userId,
       username,
+      searchText,
       types,
       languages,
       genres,
@@ -141,6 +142,7 @@ class IndexPage extends Component {
                 isUserLoggedIn={isUserLoggedIn}
                 isValidUsername={isValidUsername}
                 username={username}
+                searchText={searchText}
                 types={types}
                 languages={languages}
                 genres={genres}
@@ -151,7 +153,11 @@ class IndexPage extends Component {
               <Hidden mdUp>
                 <Grid container justify="center" style={{ paddingTop: '1rem' }}>
                   <Grid item xs={8}>
-                    <Search getAllShows={getAllShows} addFilter={addFilter} />
+                    <Search
+                      getAllShows={getAllShows}
+                      addFilter={addFilter}
+                      searchText={searchText}
+                    />
                   </Grid>
                   <Grid item xs={12}>
                     <FilterAreaMobile
@@ -302,6 +308,7 @@ const mapStateToProps = createStructuredSelector({
   languages: staticSelector.getAllLanguages(),
   genres: staticSelector.getAllGenres(),
   shows: showsSelector.getAllShows(),
+  searchText: staticSelector.getSearchText(),
   appliedFilters: staticSelector.getAppliedFilters(),
 });
 
